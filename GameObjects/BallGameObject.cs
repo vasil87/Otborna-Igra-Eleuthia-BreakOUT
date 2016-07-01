@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OtbornaIgra.GameObjects
+﻿namespace OtbornaIgra.GameObjects
 {
-    class BallGameObject:GameObjects
+    using System;
+    using OtbornaIgra.Interfaces;
+
+    public class BallGameObject : GameObjects, IMovable
     {
+        public void Move(int width, int height)
+        {
+            this.Position = new Position(width, height);
+        }
     }
 }

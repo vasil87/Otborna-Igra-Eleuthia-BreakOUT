@@ -1,7 +1,5 @@
-﻿
-namespace OtbornaIgra
+﻿namespace OtbornaIgra
 {
-   
     using GameEngines;
     using Interfaces;
     using Renderers;
@@ -28,8 +26,6 @@ namespace OtbornaIgra
         
         public MainWindow()
         {
-            
-
             this.InitializeComponent();
             IRenderer renderer = new WpfGameRenderer(this.GameCanvas);
             this.Engine = new GameEngine(renderer);

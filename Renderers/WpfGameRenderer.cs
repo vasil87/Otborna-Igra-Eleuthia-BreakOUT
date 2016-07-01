@@ -1,6 +1,4 @@
-﻿
-
-namespace OtbornaIgra.Renderers
+﻿namespace OtbornaIgra.Renderers
 {
     using Interfaces;
     using System;
@@ -30,23 +28,19 @@ namespace OtbornaIgra.Renderers
 
         public WpfGameRenderer(Canvas gameCanvas)
         {
-
             this.canvas = gameCanvas;
+
             (this.canvas.Parent as MainWindow).KeyDown += (sender, args) =>
              {
-
-
                  var key = args.Key;
 
                  if (key == Key.Left)
                  {   
-                     
                      this.presingkey(this, new KeyDownEventArgs(GameComand.MoveLeft));
                  }
 
                  else if (key == Key.Right)
                  {
-
                      this.presingkey(this, new KeyDownEventArgs(GameComand.MoveRight));
                  }
 
@@ -88,24 +82,25 @@ namespace OtbornaIgra.Renderers
 
         private void DrawBall(GameObjects drawing)
         {
+            int moveLeft = drawing.Position.Left;
+            int moveTop = drawing.Position.Top;
+            (drawing as BallGameObject).Move(moveLeft, moveTop - 1);
             Image ball = new Image();
 
-            BitmapImage brickFacetSource = new BitmapImage();
+            BitmapImage brickFacetSource = new BitmapImage();  
             brickFacetSource.BeginInit();
-            brickFacetSource.UriSource = new Uri(@"C:\Users\vasil\Desktop\146716091038845.gif");
+            
+            string path = System.IO.Path.GetFullPath(@"..\..\..\Otborna-Igra-Eleuthia-BreakOUT\Images\Ball.png");
+            brickFacetSource.UriSource = new Uri(path); // C:\Users\vasil\Desktop\146716091038845.gif
             brickFacetSource.EndInit();
 
             ball.Source = brickFacetSource;
             ball.Height = drawing.Bounds.Height;
             ball.Width = drawing.Bounds.Width;
 
-
             Canvas.SetLeft(ball, drawing.Position.Left);
             Canvas.SetTop(ball, drawing.Position.Top);
             this.canvas.Children.Add(ball);
-
-
-
         }
 
         private void DrawPad(GameObjects drawing)
@@ -116,6 +111,7 @@ namespace OtbornaIgra.Renderers
                 Height = drawing.Bounds.Height,
                 Fill = Brushes.Yellow
             };
+
             Canvas.SetLeft(pad, drawing.Position.Left);
             Canvas.SetTop(pad, drawing.Position.Top);
             this.canvas.Children.Add(pad);
@@ -123,7 +119,6 @@ namespace OtbornaIgra.Renderers
 
         private void DrawBrick(GameObjects drawing)
         {
-
             var brick = new Rectangle()
             {
                 Width = drawing.Bounds.Width,
