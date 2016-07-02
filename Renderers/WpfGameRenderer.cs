@@ -90,7 +90,7 @@
             BitmapImage brickFacetSource = new BitmapImage();  
             brickFacetSource.BeginInit();
             
-            string path = System.IO.Path.GetFullPath(@"..\..\..\Otborna-Igra-Eleuthia-BreakOUT\Images\Ball.png");
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\Ball.png");
             brickFacetSource.UriSource = new Uri(path); // C:\Users\vasil\Desktop\146716091038845.gif
             brickFacetSource.EndInit();
 
