@@ -14,7 +14,9 @@
     using System.Windows.Input;
     using Misc;
     public class WpfGameRenderer : IRenderer
-    {
+    {  
+        //private Position speed;
+
         private Canvas canvas;
 
 
@@ -26,7 +28,7 @@
 
         public event EventHandler<KeyDownEventArgs> presingkey;
 
-        public WpfGameRenderer(Canvas gameCanvas)
+        public WpfGameRenderer(Canvas gameCanvas)  //constructor i proverka za natisnat buton
         {
             this.canvas = gameCanvas;
 
@@ -53,12 +55,12 @@
              };
         }
 
-        public void Clear()
+        public void Clear()                          //iztriva obektite vurhu canvasa
         {
             this.canvas.Children.Clear();
         }
 
-        public void Draw(params GameObjects[] drawObject)
+        public void Draw(params GameObjects[] drawObject)  //risuva obektite vurhu canvasa v zavisimost ot                                                     vida im 
 
         {
             foreach (var drawing in drawObject)
@@ -82,24 +84,28 @@
 
         private void DrawBall(GameObjects drawing)
         {
+
             int moveLeft = drawing.Position.Left;
             int moveTop = drawing.Position.Top;
-            (drawing as BallGameObject).Move(moveLeft, moveTop - 1);
+            (drawing as BallGameObject).Move(moveLeft-2, moveTop - 3);
+
+            //inicializaciq na bitmap 
+            BitmapImage ballFacetSource = new BitmapImage();  
+            ballFacetSource.BeginInit();                //putq do image v papka  images
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\Ball.png");  
+            ballFacetSource.UriSource = new Uri(path);
+            ballFacetSource.EndInit();
+
+            //pravim nov image koito vzima source bitmapimage
             Image ball = new Image();
-
-            BitmapImage brickFacetSource = new BitmapImage();  
-            brickFacetSource.BeginInit();
-            
-            string path = System.IO.Path.GetFullPath(@"..\..\Images\Ball.png");
-            brickFacetSource.UriSource = new Uri(path); // C:\Users\vasil\Desktop\146716091038845.gif
-            brickFacetSource.EndInit();
-
-            ball.Source = brickFacetSource;
+            ball.Source = ballFacetSource;
             ball.Height = drawing.Bounds.Height;
-            ball.Width = drawing.Bounds.Width;
-
-            Canvas.SetLeft(ball, drawing.Position.Left);
+            ball.Width  = drawing.Bounds.Width;
+            
+            //static method za da setvane poziciq na ball sprqmo canvasa
+            Canvas.SetLeft(ball, drawing.Position.Left);    
             Canvas.SetTop(ball, drawing.Position.Top);
+            //dobavqme v canvasa ball obekta kato children na cavasa 
             this.canvas.Children.Add(ball);
         }
 
@@ -111,7 +117,7 @@
                 Height = drawing.Bounds.Height,
                 Fill = Brushes.Yellow
             };
-
+            
             Canvas.SetLeft(pad, drawing.Position.Left);
             Canvas.SetTop(pad, drawing.Position.Top);
             this.canvas.Children.Add(pad);
@@ -119,13 +125,12 @@
 
         private void DrawBrick(GameObjects drawing)
         {
+            SolidColorBrush brush = GiveMeColor(drawing); //vrushta random color
             var brick = new Rectangle()
             {
                 Width = drawing.Bounds.Width,
                 Height = drawing.Bounds.Height,
-                Fill = Brushes.Brown,
-                Stroke = Brushes.AntiqueWhite,
-                StrokeThickness = 3
+                Fill = brush,
             };
             Canvas.SetLeft(brick, drawing.Position.Left);
             Canvas.SetTop(brick, drawing.Position.Top);
@@ -148,6 +153,19 @@
             //Canvas.SetLeft(brick, drawing.Position.Left);
             //Canvas.SetTop(brick, drawing.Position.Top);
             //this.canvas.Children.Add(brick);
+        }
+
+        private static SolidColorBrush GiveMeColor(GameObjects drawing)
+        {
+            var brush = Brushes.LawnGreen;
+            Random cvqt = new Random(drawing.GetHashCode());
+            int randomChislo = cvqt.Next(1, 4);
+            if (randomChislo == 1)
+            { brush = Brushes.Indigo; }
+            else if (randomChislo == 2)
+            { brush = Brushes.White; }
+
+            return brush;
         }
     }
 }
