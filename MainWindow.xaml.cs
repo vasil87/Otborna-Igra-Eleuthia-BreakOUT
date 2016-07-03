@@ -28,6 +28,7 @@
         {
             this.InitializeComponent();
             IRenderer renderer = new WpfGameRenderer(this.GameCanvas);
+            
             this.Engine = new GameEngine(renderer);
             this.Engine.InitGame();
             this.Engine.StartGame();
