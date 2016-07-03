@@ -13,8 +13,9 @@
     using System.Windows.Media.Imaging;
     using System.Windows.Input;
     using Misc;
+    using Global;
     public class WpfGameRenderer : IRenderer
-    {  
+    {
         //private Position speed;
 
         private Canvas canvas;
@@ -31,13 +32,13 @@
         public WpfGameRenderer(Canvas gameCanvas)  //constructor i proverka za natisnat buton
         {
             this.canvas = gameCanvas;
-
+            //main window slusha za keydown i ako ima vika delegata
             (this.canvas.Parent as MainWindow).KeyDown += (sender, args) =>
              {
                  var key = args.Key;
 
                  if (key == Key.Left)
-                 {   
+                 {     //reizvash eventa na renderer (presingkey) sys this i keydown comand moveleft
                      this.presingkey(this, new KeyDownEventArgs(GameComand.MoveLeft));
                  }
 
@@ -60,7 +61,7 @@
             this.canvas.Children.Clear();
         }
 
-        public void Draw(params GameObjects[] drawObject)  //risuva obektite vurhu canvasa v zavisimost ot                                                     vida im 
+        public void Draw(params IGameObject[] drawObject)  //risuva obektite vurhu canvasa v zavisimost ot                                                     vida im 
 
         {
             foreach (var drawing in drawObject)
@@ -76,23 +77,20 @@
                 }
                 else if (drawing is BallGameObject)
                 {
-                    DrawBall(drawing);
+                    IMovable drawingImovable = drawing as IMovable;
+                    DrawBall(drawingImovable);
                 }
             }
 
         }
 
-        private void DrawBall(GameObjects drawing)
+        private void DrawBall(IMovable drawing)
         {
 
-            int moveLeft = drawing.Position.Left;
-            int moveTop = drawing.Position.Top;
-            (drawing as BallGameObject).Move(moveLeft-2, moveTop - 3);
-
             //inicializaciq na bitmap 
-            BitmapImage ballFacetSource = new BitmapImage();  
+            BitmapImage ballFacetSource = new BitmapImage();
             ballFacetSource.BeginInit();                //putq do image v papka  images
-            string path = System.IO.Path.GetFullPath(@"..\..\Images\Ball.png");  
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\Ball.png");
             ballFacetSource.UriSource = new Uri(path);
             ballFacetSource.EndInit();
 
@@ -100,16 +98,16 @@
             Image ball = new Image();
             ball.Source = ballFacetSource;
             ball.Height = drawing.Bounds.Height;
-            ball.Width  = drawing.Bounds.Width;
-            
+            ball.Width = drawing.Bounds.Width;
+
             //static method za da setvane poziciq na ball sprqmo canvasa
-            Canvas.SetLeft(ball, drawing.Position.Left);    
+            Canvas.SetLeft(ball, drawing.Position.Left);
             Canvas.SetTop(ball, drawing.Position.Top);
             //dobavqme v canvasa ball obekta kato children na cavasa 
             this.canvas.Children.Add(ball);
         }
 
-        private void DrawPad(GameObjects drawing)
+        private void DrawPad(IGameObject drawing)
         {
             var pad = new Ellipse()
             {
@@ -117,13 +115,13 @@
                 Height = drawing.Bounds.Height,
                 Fill = Brushes.Yellow
             };
-            
+
             Canvas.SetLeft(pad, drawing.Position.Left);
             Canvas.SetTop(pad, drawing.Position.Top);
             this.canvas.Children.Add(pad);
         }
 
-        private void DrawBrick(GameObjects drawing)
+        private void DrawBrick(IGameObject drawing)
         {
             SolidColorBrush brush = GiveMeColor(drawing); //vrushta random color
             var brick = new Rectangle()
@@ -155,7 +153,7 @@
             //this.canvas.Children.Add(brick);
         }
 
-        private static SolidColorBrush GiveMeColor(GameObjects drawing)
+        private static SolidColorBrush GiveMeColor(IGameObject drawing)
         {
             var brush = Brushes.LawnGreen;
             Random cvqt = new Random(drawing.GetHashCode());
@@ -166,6 +164,20 @@
             { brush = Brushes.White; }
 
             return brush;
+        }
+
+        public bool isInBounds(Position position)
+        {
+            if (position.Left <= 0 || position.Left>=ScreenWidth - GlobalConstants.padWidth-5 || position.Top <= 5 || position.Top >= ScreenHeight)
+            {
+                return false;
+            }
+
+            else
+            {
+                return true;
+            }
+
         }
     }
 }

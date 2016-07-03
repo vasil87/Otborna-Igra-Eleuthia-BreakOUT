@@ -1,6 +1,8 @@
-﻿namespace OtbornaIgra.GameObjects
+﻿using OtbornaIgra.Interfaces;
+
+namespace OtbornaIgra.GameObjects
 {
-    public class PadGameObject : GameObjects
+    public class PadGameObject : GameObjects, IGameObject
     {
     }
 }

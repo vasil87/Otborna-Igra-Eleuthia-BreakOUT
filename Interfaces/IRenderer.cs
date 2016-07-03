@@ -13,11 +13,11 @@ namespace OtbornaIgra.Interfaces
 
          int ScreenWidth { get;}
          int ScreenHeight { get;}
-        void Clear();
+         void Clear();
+         void Draw(params IGameObject[] drawObject);
 
-        void Draw(params GameObjects[] drawObject);
+         event EventHandler<KeyDownEventArgs> presingkey;
 
-        event EventHandler<KeyDownEventArgs> presingkey;
-
+        bool isInBounds(Position position);
     }
 }
