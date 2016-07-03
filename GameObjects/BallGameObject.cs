@@ -9,5 +9,18 @@
         {
             this.Position = new Position(width, height);
         }
+
+        public override bool IsAlive
+        {
+            get
+            {
+                return true;
+            }
+
+            set
+            {
+               
+            }
+        }
     }
 }

@@ -14,8 +14,9 @@
     using Global;
 
     public class GameEngine
-    {
-        
+
+    {   
+        private Position ballSpeed;  //vector na skorostta
 
         private IRenderer renderer;
 
@@ -27,6 +28,7 @@
 
         public GameEngine(IRenderer Renderer)
         {  //zaka4am se za eventa presingkey i pri vsqko vikane na presingkey se vika handlekeypressed
+            this.ballSpeed = new Position(-2, -3);
             this.renderer = Renderer;
             this.renderer.presingkey += HandleKeyPressed; 
         }
@@ -110,12 +112,40 @@
                  this.renderer.Clear();
                  int currentBallPositionLeft = this.Ball.Position.Left;
                  int currentBallPositionTop = this.Ball.Position.Top;
-                 this.Ball.Move(currentBallPositionLeft - 2, currentBallPositionTop - 3);
-                
+                 this.Ball.Move(currentBallPositionLeft + this.ballSpeed.Left, currentBallPositionTop + this.ballSpeed.Top);
+
+                 foreach (var brick in this.Bricks)
+                 {
+                     var brickLeftBottomLeft = brick.Position.Left;
+                     var brickLeftBottomTop = brick.Position.Top - brick.Bounds.Width;
+                     var brickRightBottomLeft = brick.Position.Left + brick.Bounds.Width;
+                     var brickRightBottomTop = brickLeftBottomTop;
+
+                     var ballTop = this.Ball.Position.Top + this.Ball.Bounds.Height / 2;
+                     var ballLeft = this.Ball.Position.Left + this.Ball.Bounds.Width / 2;
+
+                     if (ballTop <= brickLeftBottomTop && ballLeft <= brickRightBottomLeft &&
+                     ballLeft >= brickLeftBottomLeft)
+                     {
+                         brick.IsAlive = false;
+                         this.ballSpeed.Left = -this.ballSpeed.Left;
+                         this.ballSpeed.Top = -this.ballSpeed.Top;
+                     }
+                    //if (ballLeft >= brickLeftBottomTop)
+                    //{
+                    //    brick.IsAlive = false;
+                    //    this.ballSpeed.Left = -this.ballSpeed.Left;
+                    //    this.ballSpeed.Top = -this.ballSpeed.Top;
+                    //}
+                 }
+                 
+
                  this.renderer.Draw(this.Pad, this.Ball);
                  foreach (var brick in this.Bricks)
                  {   
+                     if(brick.IsAlive==true)
                      this.renderer.Draw(brick);
+
                  }
 
              };

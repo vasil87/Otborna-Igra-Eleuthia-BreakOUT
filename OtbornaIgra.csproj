@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CollisionDetector\CollisionData.cs" />
+    <Compile Include="CollisionDetector\CollisionDispatcher.cs" />
+    <Compile Include="CollisionDetector\MatrixCoords.cs" />
     <Compile Include="Global\GlobalConstants.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IMoveble.cs" />

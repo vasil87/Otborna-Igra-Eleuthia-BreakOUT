@@ -9,11 +9,19 @@
 
     public abstract class GameObjects: IGameObject
     {
+        public GameObjects()
+        {
+
+            this.IsAlive = true;
+        }
+
         public Position Position { get; set; }
 
         public Size Bounds { get; set; }
 
-        public bool IsAlive { get; set; }
+        public virtual bool IsAlive { get; set; }
 
-    }
+   
+
+}
 }

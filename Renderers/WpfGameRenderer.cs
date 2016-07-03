@@ -16,7 +16,7 @@
     using Global;
     public class WpfGameRenderer : IRenderer
     {
-        //private Position speed;
+        
 
         private Canvas canvas;
 
@@ -168,7 +168,8 @@
 
         public bool isInBounds(Position position)
         {
-            if (position.Left <= 0 || position.Left>=ScreenWidth - GlobalConstants.padWidth-5 || position.Top <= 5 || position.Top >= ScreenHeight)
+            if (position.Left <= 0 || position.Left>=ScreenWidth - GlobalConstants.padWidth-5 
+                || position.Top <= 5 || position.Top >= ScreenHeight)
             {
                 return false;
             }
