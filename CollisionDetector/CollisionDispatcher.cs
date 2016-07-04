@@ -1,171 +1,172 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OtbornaIgra.Interfaces;
 
-//namespace OtbornaIgra.CollisionDetector
-//{
-//    public static class CollisionDispatcher
-//    {
-//        public static void HandleCollisions(List<MovingObject> movingObjects, List<GameObject> staticObjects)
-//        {
-//            HandleMovingWithStaticCollisions(movingObjects, staticObjects);
-//        }
+namespace OtbornaIgra.CollisionDetector
+{
+    public static class CollisionDispatcher
+    {   
+        public static void HandleCollisions(List<IMovable> movingObjects, List<IGameObject> staticObjects)
+        {
+            HandleMovingWithStaticCollisions(movingObjects, staticObjects);
+        }
 
-//        private static void HandleMovingWithStaticCollisions(List<MovingObject> movingObjects, List<GameObject> staticObjects)
-//        {
-//            foreach (var movingObject in movingObjects)
-//            {
-//                int verticalIndex = VerticalCollisionIndex(movingObject, staticObjects);
-//                int horizontalIndex = HorizontalCollisionIndex(movingObject, staticObjects);
+        private static void HandleMovingWithStaticCollisions(List<IMovable> movingObjects, List<IGameObject> staticObjects)
+        {
+            foreach (var movingObject in movingObjects)
+            {
+                int verticalIndex = VerticalCollisionIndex(movingObject, staticObjects);
+                int horizontalIndex = HorizontalCollisionIndex(movingObject, staticObjects);
 
-//                MatrixCoords movingCollisionForceDirection = new MatrixCoords(0, 0);
+                MatrixCoords movingCollisionForceDirection = new MatrixCoords(0, 0);
 
-//                if (verticalIndex != -1)
-//                {
-//                    movingCollisionForceDirection.Row = -movingObject.Speed.Row;
-//                    staticObjects[verticalIndex].RespondToCollision(
-//                        new CollisionData(new MatrixCoords(movingObject.Speed.Row, 0),
-//                            movingObject.GetCollisionGroupString())
-//                            );
-//                }
+                if (verticalIndex != -1)
+                {
+                    movingCollisionForceDirection.Row = -movingObject.Speed.Row;
+                    staticObjects[verticalIndex].RespondToCollision(
+                        new CollisionData(new MatrixCoords(movingObject.Speed.Row, 0),
+                            movingObject.GetCollisionGroupString())
+                            );
+                }
 
-//                if (horizontalIndex != -1)
-//                {
-//                    movingCollisionForceDirection.Col = -movingObject.Speed.Col;
-//                    staticObjects[horizontalIndex].RespondToCollision(
-//                        new CollisionData(new MatrixCoords(0, movingObject.Speed.Col),
-//                            movingObject.GetCollisionGroupString())
-//                            );
-//                }
+                if (horizontalIndex != -1)
+                {
+                    movingCollisionForceDirection.Col = -movingObject.Speed.Col;
+                    staticObjects[horizontalIndex].RespondToCollision(
+                        new CollisionData(new MatrixCoords(0, movingObject.Speed.Col),
+                            movingObject.GetCollisionGroupString())
+                            );
+                }
 
-//                int diagonalIndex = -1;
-//                if (horizontalIndex == -1 && verticalIndex == -1)
-//                {
-//                    diagonalIndex = DiagonalCollisionIndex(movingObject, staticObjects);
-//                    if (diagonalIndex != -1)
-//                    {
-//                        movingCollisionForceDirection.Row = -movingObject.Speed.Row;
-//                        movingCollisionForceDirection.Col = -movingObject.Speed.Col;
+                int diagonalIndex = -1;
+                if (horizontalIndex == -1 && verticalIndex == -1)
+                {
+                    diagonalIndex = DiagonalCollisionIndex(movingObject, staticObjects);
+                    if (diagonalIndex != -1)
+                    {
+                        movingCollisionForceDirection.Row = -movingObject.Speed.Row;
+                        movingCollisionForceDirection.Col = -movingObject.Speed.Col;
 
-//                        staticObjects[diagonalIndex].RespondToCollision(
-//                        new CollisionData(new MatrixCoords(movingObject.Speed.Row, 0),
-//                            movingObject.GetCollisionGroupString())
-//                            );
-//                    }
-//                }
+                        staticObjects[diagonalIndex].RespondToCollision(
+                        new CollisionData(new MatrixCoords(movingObject.Speed.Row, 0),
+                            movingObject.GetCollisionGroupString())
+                            );
+                    }
+                }
 
-//                List<string> hitByMovingCollisionGroups = new List<string>();
+                List<string> hitByMovingCollisionGroups = new List<string>();
 
-//                if (verticalIndex != -1)
-//                {
-//                    hitByMovingCollisionGroups.Add(staticObjects[verticalIndex].GetCollisionGroupString());
-//                }
+                if (verticalIndex != -1)
+                {
+                    hitByMovingCollisionGroups.Add(staticObjects[verticalIndex].GetCollisionGroupString());
+                }
 
-//                if (horizontalIndex != -1)
-//                {
-//                    hitByMovingCollisionGroups.Add(staticObjects[horizontalIndex].GetCollisionGroupString());
-//                }
+                if (horizontalIndex != -1)
+                {
+                    hitByMovingCollisionGroups.Add(staticObjects[horizontalIndex].GetCollisionGroupString());
+                }
 
-//                if (diagonalIndex != -1)
-//                {
-//                    hitByMovingCollisionGroups.Add(staticObjects[diagonalIndex].GetCollisionGroupString());
-//                }
+                if (diagonalIndex != -1)
+                {
+                    hitByMovingCollisionGroups.Add(staticObjects[diagonalIndex].GetCollisionGroupString());
+                }
 
-//                if (verticalIndex != -1 || horizontalIndex != -1 || diagonalIndex != -1)
-//                {
-//                    movingObject.RespondToCollision(
-//                        new CollisionData(movingCollisionForceDirection,
-//                            hitByMovingCollisionGroups)
-//                            );
-//                }
-//            }
-//        }
+                if (verticalIndex != -1 || horizontalIndex != -1 || diagonalIndex != -1)
+                {
+                    movingObject.RespondToCollision(
+                        new CollisionData(movingCollisionForceDirection,
+                            hitByMovingCollisionGroups)
+                            );
+                }
+            }
+        }
 
-//        public static int VerticalCollisionIndex(MovingObject moving, List<GameObject> objects)
-//        {
-//            List<MatrixCoords> profile = moving.GetCollisionProfile();
+        public static int VerticalCollisionIndex(IMovable moving, List<IGameObject> objects)
+        {
+            List<MatrixCoords> profile = moving.GetCollisionProfile();
 
-//            List<MatrixCoords> verticalProfile = new List<MatrixCoords>();
+            List<MatrixCoords> verticalProfile = new List<MatrixCoords>();
 
-//            foreach (var coord in profile)
-//            {
-//                verticalProfile.Add(new MatrixCoords(coord.Row + moving.Speed.Row, coord.Col));
-//            }
+            foreach (var coord in profile)
+            {
+                verticalProfile.Add(new MatrixCoords(coord.Row + moving.Speed.Row, coord.Col));
+            }
 
-//            int collisionIndex = GetCollisionIndex(moving, objects, verticalProfile);
+            int collisionIndex = GetCollisionIndex(moving, objects, verticalProfile);
 
-//            return collisionIndex;
-//        }
+            return collisionIndex;
+        }
 
-//        public static int HorizontalCollisionIndex(MovingObject moving, List<GameObject> objects)
-//        {
-//            List<MatrixCoords> profile = moving.GetCollisionProfile();
+        public static int HorizontalCollisionIndex(MovingObject moving, List<GameObject> objects)
+        {
+            List<MatrixCoords> profile = moving.GetCollisionProfile();
 
-//            List<MatrixCoords> horizontalProfile = new List<MatrixCoords>();
+            List<MatrixCoords> horizontalProfile = new List<MatrixCoords>();
 
-//            foreach (var coord in profile)
-//            {
-//                horizontalProfile.Add(new MatrixCoords(coord.Row, coord.Col + moving.Speed.Col));
-//            }
+            foreach (var coord in profile)
+            {
+                horizontalProfile.Add(new MatrixCoords(coord.Row, coord.Col + moving.Speed.Col));
+            }
 
-//            int collisionIndex = GetCollisionIndex(moving, objects, horizontalProfile);
+            int collisionIndex = GetCollisionIndex(moving, objects, horizontalProfile);
 
-//            return collisionIndex;
-//        }
+            return collisionIndex;
+        }
 
-//        public static int DiagonalCollisionIndex(MovingObject moving, List<GameObject> objects)
-//        {
-//            List<MatrixCoords> profile = moving.GetCollisionProfile();
+        public static int DiagonalCollisionIndex(MovingObject moving, List<GameObject> objects)
+        {
+            List<MatrixCoords> profile = moving.GetCollisionProfile();
 
-//            List<MatrixCoords> horizontalProfile = new List<MatrixCoords>();
+            List<MatrixCoords> horizontalProfile = new List<MatrixCoords>();
 
-//            foreach (var coord in profile)
-//            {
-//                horizontalProfile.Add(new MatrixCoords(coord.Row + moving.Speed.Row, coord.Col + moving.Speed.Col));
-//            }
+            foreach (var coord in profile)
+            {
+                horizontalProfile.Add(new MatrixCoords(coord.Row + moving.Speed.Row, coord.Col + moving.Speed.Col));
+            }
 
-//            int collisionIndex = GetCollisionIndex(moving, objects, horizontalProfile);
+            int collisionIndex = GetCollisionIndex(moving, objects, horizontalProfile);
 
-//            return collisionIndex;
-//        }
+            return collisionIndex;
+        }
 
-//        private static int GetCollisionIndex(MovingObject moving, ICollection<GameObject> objects, List<MatrixCoords> movingProfile)
-//        {
-//            int collisionIndex = 0;
+        private static int GetCollisionIndex(MovingObject moving, ICollection<GameObject> objects, List<MatrixCoords> movingProfile)
+        {
+            int collisionIndex = 0;
 
-//            foreach (var obj in objects)
-//            {
-//                if (moving.CanCollideWith(obj.GetCollisionGroupString()) || obj.CanCollideWith(moving.GetCollisionGroupString()))
-//                {
-//                    List<MatrixCoords> objProfile = obj.GetCollisionProfile();
+            foreach (var obj in objects)
+            {
+                if (moving.CanCollideWith(obj.GetCollisionGroupString()) || obj.CanCollideWith(moving.GetCollisionGroupString()))
+                {
+                    List<MatrixCoords> objProfile = obj.GetCollisionProfile();
 
-//                    if (ProfilesIntersect(movingProfile, objProfile))
-//                    {
-//                        return collisionIndex;
-//                    }
-//                }
+                    if (ProfilesIntersect(movingProfile, objProfile))
+                    {
+                        return collisionIndex;
+                    }
+                }
 
-//                collisionIndex++;
-//            }
+                collisionIndex++;
+            }
 
-//            return -1;
-//        }
+            return -1;
+        }
 
-//        private static bool ProfilesIntersect(List<MatrixCoords> firstProfile, List<MatrixCoords> secondProfile)
-//        {
-//            foreach (var firstCoord in firstProfile)
-//            {
-//                foreach (var secondCoord in secondProfile)
-//                {
-//                    if (firstCoord.Equals(secondCoord))
-//                    {
-//                        return true;
-//                    }
-//                }
-//            }
+        private static bool ProfilesIntersect(List<MatrixCoords> firstProfile, List<MatrixCoords> secondProfile)
+        {
+            foreach (var firstCoord in firstProfile)
+            {
+                foreach (var secondCoord in secondProfile)
+                {
+                    if (firstCoord.Equals(secondCoord))
+                    {
+                        return true;
+                    }
+                }
+            }
 
-//            return false;
-//        }
-//    }
-//}
+            return false;
+        }
+    }
+}

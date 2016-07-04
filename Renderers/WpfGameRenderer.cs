@@ -14,6 +14,7 @@
     using System.Windows.Input;
     using Misc;
     using Global;
+    using System.Drawing;
     public class WpfGameRenderer : IRenderer
     {
         
@@ -86,7 +87,7 @@
 
         private void DrawBall(IMovable drawing)
         {
-
+            
             //inicializaciq na bitmap 
             BitmapImage ballFacetSource = new BitmapImage();
             ballFacetSource.BeginInit();                //putq do image v papka  images
@@ -130,9 +131,12 @@
                 Height = drawing.Bounds.Height,
                 Fill = brush,
             };
+            
             Canvas.SetLeft(brick, drawing.Position.Left);
             Canvas.SetTop(brick, drawing.Position.Top);
             this.canvas.Children.Add(brick);
+            
+
 
 
 

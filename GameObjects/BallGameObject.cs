@@ -5,11 +5,11 @@
 
     public class BallGameObject : GameObjects, IMovable, IGameObject
     {
-        public Position BallSpeed {get;set;}
+        public Position Speed {get;set;}
 
         public BallGameObject()
         {
-            BallSpeed=new Position();
+            Speed=new Position();
         }
         public void Move(int width, int height)
         {
@@ -18,7 +18,7 @@
 
         public void MoveWithCurrentSpeed()
         {
-            this.Position = new Position(this.Position.Left+this.BallSpeed.Left, this.Position.Top + this.BallSpeed.Top);
+            this.Position = new Position(this.Position.Left+this.Speed.Left, this.Position.Top + this.Speed.Top);
         }
 
        

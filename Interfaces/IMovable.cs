@@ -6,7 +6,7 @@ namespace OtbornaIgra.Interfaces
     public interface IMovable:IGameObject
     {
 
-        Position BallSpeed { get; set; } //vector na skorostta
+        Position Speed { get; set; } //vector na skorostta
         void Move(int widht, int height);
 
         void MoveWithCurrentSpeed();

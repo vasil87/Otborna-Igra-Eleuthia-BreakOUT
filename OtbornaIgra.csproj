@@ -55,12 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CollisionDetector\CollisionData.cs" />
-    <Compile Include="CollisionDetector\CollisionDispatcher.cs" />
-    <Compile Include="CollisionDetector\MatrixCoords.cs" />
+    <Compile Include="Collision Detection\CollisionData.cs" />
+    <Compile Include="Collision Detection\CollisionDetector.cs" />
+    <Compile Include="Collision Detection\MatrixCoords.cs" />
+    <Compile Include="Collision Detection\HitType.cs" />
     <Compile Include="Global\GlobalConstants.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
-    <Compile Include="Interfaces\IMoveble.cs" />
+    <Compile Include="Interfaces\IMovable.cs" />
     <Compile Include="Interfaces\IRenderer.cs" />
     <Compile Include="Misc\GameComand.cs" />
     <Compile Include="Misc\KeyDownEventArgs.cs" />
