@@ -17,7 +17,7 @@
     using System.Drawing;
     public class WpfGameRenderer : IRenderer
     {
-        
+
 
         private Canvas canvas;
 
@@ -32,7 +32,14 @@
 
         public WpfGameRenderer(Canvas gameCanvas)  //constructor i proverka za natisnat buton
         {
+            string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\background.jpg");
             this.canvas = gameCanvas;
+            ImageBrush myBrush = new ImageBrush();
+            Image image = new Image();
+            image.Source = new BitmapImage( new Uri(pathBackground));
+            myBrush.ImageSource = image.Source;
+            this.canvas.Background = myBrush;
+
             //main window slusha za keydown i ako ima vika delegata
             (this.canvas.Parent as MainWindow).KeyDown += (sender, args) =>
              {
@@ -62,7 +69,7 @@
             this.canvas.Children.Clear();
         }
 
-        public void Draw(params IGameObject[] drawObject)  //risuva obektite vurhu canvasa v zavisimost ot                                                     vida im 
+        public void Draw(params IGameObject[] drawObject)  //risuva obektite vurhu canvasa v zavisimost ot vida im 
 
         {
             foreach (var drawing in drawObject)
@@ -92,7 +99,7 @@
 
         private void DrawBall(IMovable drawing)
         {
-            
+
             //inicializaciq na bitmap 
             BitmapImage ballFacetSource = new BitmapImage();
             ballFacetSource.BeginInit();                //putq do image v papka  images
@@ -115,11 +122,17 @@
 
         private void DrawPad(IGameObject drawing)
         {
+            BitmapImage ballFacetSource = new BitmapImage();
+            ballFacetSource.BeginInit();                //putq do image v papka images
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\Ball.png");
+            ballFacetSource.UriSource = new Uri(path);
+            ballFacetSource.EndInit();
+
             var pad = new Ellipse()
             {
                 Width = drawing.Bounds.Width,
                 Height = drawing.Bounds.Height,
-                Fill = Brushes.Yellow
+                Fill = Brushes.LimeGreen
             };
 
             Canvas.SetLeft(pad, drawing.Position.Left);
@@ -130,18 +143,41 @@
         private void DrawText(TextGameObject drawing)
         {
             var text = new TextBlock()
-            { Width = drawing.Bounds.Width,
+            {
+                Width = drawing.Bounds.Width,
                 Height = drawing.Bounds.Height,
                 Foreground = Brushes.Black,
                 Text = drawing.Text,
                 FontSize = 15,
-                
+
             };
 
             Canvas.SetLeft(text, drawing.Position.Left);
             Canvas.SetRight(text, drawing.Position.Top);
             this.canvas.Children.Add(text);
         }
+
+        /*
+         BitmapImage padImage = new BitmapImage();
+            padImage.BeginInit();                //putq do image v papka images
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\pad.png");
+            padImage.UriSource = new Uri(path);
+            padImage.EndInit();
+
+            //pravim nov image koito vzima source bitmapimage
+            Image pad = new Image();
+            pad.Source = padImage;
+            pad.Height = drawing.Bounds.Height;
+            pad.Width = drawing.Bounds.Width;
+
+            //static method za da setvane poziciq na ball sprqmo canvasa
+            Canvas.SetLeft(pad, drawing.Position.Left);
+            Canvas.SetTop(pad, drawing.Position.Top);
+            //dobavqme v canvasa ball obekta kato children na cavasa 
+            this.canvas.Children.Add(pad);
+             */
+
+
 
         private void DrawBrick(IGameObject drawing)
         {
@@ -152,11 +188,11 @@
                 Height = drawing.Bounds.Height,
                 Fill = brush,
             };
-            
+
             Canvas.SetLeft(brick, drawing.Position.Left);
             Canvas.SetTop(brick, drawing.Position.Top);
             this.canvas.Children.Add(brick);
-            
+
 
 
 
@@ -178,7 +214,7 @@
             //this.canvas.Children.Add(brick);
         }
 
-     
+
         private static SolidColorBrush GiveMeColor(IGameObject drawing)
         {
             var brush = Brushes.LawnGreen;
@@ -193,8 +229,8 @@
         }
 
         public bool isInBounds(Position position)//proverka za dali pada e v granici kato natiskame lqvo i dqsno
-        {   
-            if (position.Left <= 0 || position.Left>=ScreenWidth - GlobalConstants.padWidth-5 
+        {
+            if (position.Left <= 0 || position.Left >= ScreenWidth - GlobalConstants.padWidth - 5
                 || position.Top <= 5 || position.Top >= ScreenHeight)
             {
                 return false;

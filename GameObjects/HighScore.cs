@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace OtbornaIgra.GameObjects
 {
-    public class HighScore :TextGameObject
+    public class HighScore : TextGameObject
 
     {
-        public HighScore():base("HIGH SCORE:0")
+        public HighScore() : base("HIGH SCORE: 0")
         {
             
         }
@@ -34,7 +34,7 @@ namespace OtbornaIgra.GameObjects
         public override void ParseFromInt(int number)
         {
 
-            this.Text = string.Format("HIGH SCORE:{0}", number);
+            this.Text = string.Format("HIGH SCORE: {0}", number);
         }
     }
 }

@@ -69,7 +69,7 @@
 
         internal void InitGame()
         {
-            int initPadLeftPosition = (this.renderer.ScreenWidth) / 2;
+            int initPadLeftPosition = (this.renderer.ScreenWidth) / 2 - GlobalConstants.padWidth / 2;
             int initPadTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight * GlobalConstants.distanceFromBottomRowPad);
 
             this.Pad = new PadGameObject()
@@ -111,7 +111,7 @@
                      Bricks.Add(new BricksGameObject()
                      {
                          Position = new Position(initBrickLeftPosition + i * GlobalConstants.brickWidth * 2,
-                     (initBrickTopPosition+j* GlobalConstants.brickHright * 2)),
+                     (initBrickTopPosition + j * GlobalConstants.brickHright * 2)),
                          Bounds = new Size(GlobalConstants.brickWidth, GlobalConstants.brickHright)
                      });
                  }
