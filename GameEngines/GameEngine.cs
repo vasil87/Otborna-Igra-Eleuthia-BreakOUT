@@ -179,16 +179,38 @@
             var PadRightUppersideTop = PadLeftUppersideTop;
 
             //proverka za udur
-            if ((ballBotom) == PadLeftUppersideTop &&  ((ballLeft<= PadRightUppersideLeft &&
-            ballRight > PadRightUppersideLeft) || (ballRight < PadRightUppersideLeft &&
-            ballLeft > PadLeftUppersideLeft) || (ballRight >=PadLeftUppersideLeft &&
-            ballRight < PadLeftUppersideLeft)))
-            {
+           
+            
+            
+             if ((ballBotom) == PadLeftUppersideTop && ((ballLeft <= PadRightUppersideLeft &&
+             ballRight > PadRightUppersideLeft) || (ballRight < PadRightUppersideLeft &&
+             ballLeft > PadLeftUppersideLeft) || (ballRight >= PadLeftUppersideLeft &&
+             ballRight < PadLeftUppersideLeft)))
+             {
+                int newLeftSpeed;
+                int newRightSpeed;
 
-                var newLeftSpeed = this.Ball.Speed.Left;
-                var newRightSpeed = -this.Ball.Speed.Top;
-                this.Ball.Speed = new Position(newLeftSpeed, newRightSpeed);
+                if (ballRight <= (PadRightUppersideLeft - this.Pad.Bounds.Width / 4) && ballLeft >= PadLeftUppersideLeft + (Pad.Bounds.Width) / 4)
+                {
+                    newLeftSpeed = this.Ball.Speed.Left / 2;
+                     newRightSpeed = -this.Ball.Speed.Top;
+                    this.Ball.Speed = new Position(newLeftSpeed, newRightSpeed);
+                   
+                }
+
+                else {
+                    if (this.Ball.Speed.Left == 0)
+                    {
+                        if ((ballLeft + this.Ball.Bounds.Width/2) <= PadLeftUppersideLeft + Pad.Bounds.Width/2)
+                            newLeftSpeed = -2;
+                        else { newLeftSpeed = 2; }
+                    }
+                    else { newLeftSpeed = this.Ball.Speed.Left < 0 ? -2 : 2; }
+                    newRightSpeed = -this.Ball.Speed.Top;
+                    this.Ball.Speed = new Position(newLeftSpeed, newRightSpeed);
+                }
             }
+
         }
 
         //private void CheckForColissions(int ballTop, int ballLeft)
