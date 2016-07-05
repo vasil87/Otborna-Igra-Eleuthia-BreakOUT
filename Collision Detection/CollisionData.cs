@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace OtbornaIgra.Collision_Detection
 {
-    public class CollisionData
+    public class CollisionData    //tova e custom klass chiito instancii durjat nujnata informaciq pri collision
     {
         private int collideteStaticElementIndex;
 
-        private HitType side;
+        private HitTypeEnum side;
 
-        public CollisionData(int collideteStaticElementIndex, HitType side)
+        public CollisionData(int collideteStaticElementIndex, HitTypeEnum side)
         {
             this.collideteStaticElementIndex = collideteStaticElementIndex;
             this.side = side;
@@ -24,7 +24,7 @@ namespace OtbornaIgra.Collision_Detection
             get { return this.collideteStaticElementIndex; }
         }
 
-        public HitType Side
+        public HitTypeEnum Side
         {
             get
             {

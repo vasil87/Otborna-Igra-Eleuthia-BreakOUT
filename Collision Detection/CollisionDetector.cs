@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OtbornaIgra.Collision_Detection
 {
-    public static class CollisionDetector
+    public static class CollisionDetector   //statichen klass sys metodi za proverka za kolizii
     {   
         public static List<List<MatrixCoords>> staticOjectCoords;
         public static void GetBoundariesForStaticObjects(List<IGameObject> staticObjects)
@@ -31,41 +31,47 @@ namespace OtbornaIgra.Collision_Detection
             }
 
         }
-        public static void CheckForCollisionWithBricks(IMovable movingObject, List<IGameObject> staticObjects)
+        public static bool CheckForCollisionWithBricks(IMovable movingObject, List<IGameObject> staticObjects)
         {
 
-            List<MatrixCoords> movingObjectCoords = new List<MatrixCoords>();
-   
-            for (int i = 0; i < movingObject.Bounds.Height; i=i+1)
+            List<MatrixCoords> movingObjectCoords = new List<MatrixCoords>();//here saves the moving ball coords
+
+            MovingObjectCoordinates(movingObject, movingObjectCoords); //get the coordinates of the moving ball 
+            //returns -1 if no collision is detected
+            CollisionData posibleCollision = CheckWhichBrickWhichSide(movingObjectCoords, staticObjects);
+
+            if (posibleCollision.CollideteStaticElementIndex != -1)
             {
-                for (int j = 0; j < movingObject.Bounds.Width; j=j+1)
+                if (posibleCollision.Side == HitTypeEnum.horizontal)
+                    movingObject.Speed = new GameObjects.Position(movingObject.Speed.Left, -movingObject.Speed.Top);
+                else { movingObject.Speed = new GameObjects.Position(-movingObject.Speed.Left, movingObject.Speed.Top); }
+                staticObjects[posibleCollision.CollideteStaticElementIndex].IsAlive = false;
+                staticOjectCoords.RemoveAt(posibleCollision.CollideteStaticElementIndex);
+                return true;
+            }
+
+
+            return false;
+
+        }
+
+        private static void MovingObjectCoordinates(IMovable movingObject, List<MatrixCoords> movingObjectCoords)
+        {
+            for (int i = 0; i < movingObject.Bounds.Height; i = i + 1)
+            {
+                for (int j = 0; j < movingObject.Bounds.Width; j = j + 1)
                 {
-                    if (i != 0 && i != movingObject.Bounds.Height-1 && j != 0 && j != movingObject.Bounds.Width) continue;
+                    if (i != 0 && i != movingObject.Bounds.Height - 1 && j != 0 && j != movingObject.Bounds.Width) continue;
 
                     movingObjectCoords.Add
                         (new MatrixCoords(movingObject.Position.Top + i, movingObject.Position.Left + j));
                 }
             }
-
-            CollisionData posibleCollision = CheckWhichBrickWhichSide(movingObjectCoords, staticObjects);
-
-            if (posibleCollision.CollideteStaticElementIndex != -1)
-            {
-                if (posibleCollision.Side == HitType.horizontal)
-                    movingObject.Speed = new GameObjects.Position(movingObject.Speed.Left, -movingObject.Speed.Top);
-                else { movingObject.Speed = new GameObjects.Position(-movingObject.Speed.Left, movingObject.Speed.Top); }
-                staticObjects[posibleCollision.CollideteStaticElementIndex].IsAlive = false;
-                staticOjectCoords.RemoveAt(posibleCollision.CollideteStaticElementIndex);
-            }
-             
-
-            
-
         }
 
-        public static CollisionData CheckWhichBrickWhichSide(List<MatrixCoords> movingObjectCoords, List<IGameObject> staticObjects)
+        private static CollisionData CheckWhichBrickWhichSide(List<MatrixCoords> movingObjectCoords, List<IGameObject> staticObjects)
         {
-            HitType side=HitType.horizontal;
+            HitTypeEnum side=HitTypeEnum.horizontal;
             for (int k = 0; k < movingObjectCoords.Count; k++)
             {
                 for (int i = 0; i < staticObjects.Count; i++)
@@ -75,8 +81,8 @@ namespace OtbornaIgra.Collision_Detection
                     {
                         if (movingObjectCoords[k] == staticOjectCoords[i][p])
                         {
-                            if (p >= 0 && p < 60 || p >= 80 && p < 140) side = HitType.horizontal;
-                            else { side = HitType.vertical; }
+                            if (p >= 0 && p < 60 || p >= 80 && p < 140) side = HitTypeEnum.horizontal;
+                            else { side = HitTypeEnum.vertical; }
                             return new CollisionData(i, side);
 
                         }

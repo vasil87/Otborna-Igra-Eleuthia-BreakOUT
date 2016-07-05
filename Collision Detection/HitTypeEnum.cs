@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OtbornaIgra.Collision_Detection
 {
-    public enum HitType
+    public enum HitTypeEnum //vidove udur verticalen ili horizontalen
     {
       horizontal,
       vertical

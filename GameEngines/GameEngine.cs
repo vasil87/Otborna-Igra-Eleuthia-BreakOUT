@@ -15,8 +15,8 @@
     using Collision_Detection;
     public class GameEngine
 
-    {   
-       
+    {
+        
 
         private IRenderer renderer;
 
@@ -24,10 +24,12 @@
 
         public IMovable Ball { get; set; }
 
+        public IGameObject HighScore { get; set; }
+
         public List<IGameObject> Bricks { get; set; }
 
         public GameEngine(IRenderer Renderer)
-        {  
+        {
             //zaka4am se za eventa presingkey i pri vsqko vikane na presingkey se vika handlekeypressed
             
             this.renderer = Renderer;
@@ -87,6 +89,15 @@
                 Bounds = new Size(GlobalConstants.ballSize, GlobalConstants.ballSize)
             };
 
+            int initHighScoreLeftPosition = (this.renderer.ScreenWidth) - GlobalConstants.highScoreLeft;
+            int initHighScorePosition = GlobalConstants.distanceFromBottomRowPad;
+
+            this.HighScore = new HighScore()
+            {
+                Position = new Position(initHighScoreLeftPosition, initHighScorePosition),
+                Bounds = new Size(GlobalConstants.highScoreWidht, GlobalConstants.highScoreHeight)
+            };
+
             int initBrickLeftPosition = 50;
             int initBrickTopPosition = 50;
             int brickRows = 6;
@@ -127,18 +138,26 @@
 
                 CheckForBoundariesRebound(ballTop, ballLeft,timer);
 
-                CollisionDetector.CheckForCollisionWithBricks(this.Ball, this.Bricks);
-               
+                
+                if (CollisionDetector.CheckForCollisionWithBricks(this.Ball, this.Bricks))
+                {
+                    (this.HighScore as HighScore).IncreaseHighScore();
+                    
+                }
+                  
 
                 this.Bricks.RemoveAll(x => x.IsAlive == false);
-               
+
 
                 this.renderer.Clear();
 
-                this.Ball.MoveWithCurrentSpeed(); //premestva topkata sys segashnata i skorost
 
-                //drawvame obektite
-                this.renderer.Draw(this.Pad, this.Ball);
+                this.Ball.MoveWithCurrentSpeed(); //premestva topkata sys segashnata i skorost
+    
+
+                //draw bricks,pad and ball
+               
+                this.renderer.Draw(this.Pad, this.Ball,this.HighScore);
                 foreach (var brick in this.Bricks)
                 {
                     if (brick.IsAlive == true)
@@ -198,7 +217,7 @@
 
         private void CheckForBoundariesRebound(int ballTop, int ballLeft,DispatcherTimer timer)
         {
-            if    (ballLeft <= 0)
+            if (ballLeft <= 0)
                 this.Ball.Speed = new Position(-this.Ball.Speed.Left, this.Ball.Speed.Top);
             else if (ballLeft + this.Ball.Bounds.Width >= this.renderer.ScreenWidth)
                 this.Ball.Speed = new Position(-this.Ball.Speed.Left, this.Ball.Speed.Top);
@@ -212,5 +231,7 @@
             }
 
         }
+
+       
     }
 }

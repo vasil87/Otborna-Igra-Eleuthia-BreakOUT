@@ -16,8 +16,8 @@ namespace OtbornaIgra.Interfaces
          void Clear();
          void Draw(params IGameObject[] drawObject);
 
-         event EventHandler<KeyDownEventArgs> presingkey;
+          event EventHandler<KeyDownEventArgs> presingkey;
 
-        bool isInBounds(Position position);
+          bool isInBounds(Position position);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OtbornaIgra.Collision_Detection
 {
-    public class MatrixCoords
+    public class MatrixCoords               //tuk se pazqt danni za tochkite v koordinatnata sistema na periferiqta na vsqka figura
     {
         public int Top { get; set; }
         public int Left { get; set; }

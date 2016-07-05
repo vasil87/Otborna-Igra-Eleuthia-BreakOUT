@@ -16,5 +16,13 @@ namespace OtbornaIgra.Global
         public const int brickWidth = ballSize * 2;
         public const int brickHright = 20;
         public const double timerFramesIntervalInMiliSeconds = 10; //tova e speeda na igrata
+        public const int highScoreWidht = 150;
+        public const int highScoreHeight = 40;
+        public const int highScoreLeft = 130;
+
+
+
+
+
     }
 }

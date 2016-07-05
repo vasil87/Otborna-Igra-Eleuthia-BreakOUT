@@ -81,6 +81,11 @@
                     IMovable drawingImovable = drawing as IMovable;
                     DrawBall(drawingImovable);
                 }
+                else if (drawing is ITextGameObject)
+                {
+                    DrawText(drawing as TextGameObject);
+
+                }
             }
 
         }
@@ -122,6 +127,22 @@
             this.canvas.Children.Add(pad);
         }
 
+        private void DrawText(TextGameObject drawing)
+        {
+            var text = new TextBlock()
+            { Width = drawing.Bounds.Width,
+                Height = drawing.Bounds.Height,
+                Foreground = Brushes.Black,
+                Text = drawing.Text,
+                FontSize = 15,
+                
+            };
+
+            Canvas.SetLeft(text, drawing.Position.Left);
+            Canvas.SetRight(text, drawing.Position.Top);
+            this.canvas.Children.Add(text);
+        }
+
         private void DrawBrick(IGameObject drawing)
         {
             SolidColorBrush brush = GiveMeColor(drawing); //vrushta random color
@@ -157,6 +178,7 @@
             //this.canvas.Children.Add(brick);
         }
 
+     
         private static SolidColorBrush GiveMeColor(IGameObject drawing)
         {
             var brush = Brushes.LawnGreen;
@@ -170,8 +192,8 @@
             return brush;
         }
 
-        public bool isInBounds(Position position)
-        {
+        public bool isInBounds(Position position)//proverka za dali pada e v granici kato natiskame lqvo i dqsno
+        {   
             if (position.Left <= 0 || position.Left>=ScreenWidth - GlobalConstants.padWidth-5 
                 || position.Top <= 5 || position.Top >= ScreenHeight)
             {
