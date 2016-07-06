@@ -69,8 +69,9 @@
 
         internal void InitGame()
         {
+            this.renderer.ShowStartGameScreen();
             int initPadLeftPosition = (this.renderer.ScreenWidth) / 2 - GlobalConstants.padWidth / 2;
-            int initPadTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight * GlobalConstants.distanceFromBottomRowPad);
+            int initPadTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight*2);
 
             this.Pad = new PadGameObject()
             {
@@ -182,10 +183,10 @@
            
             
             
-             if ((ballBotom) == PadLeftUppersideTop && ((ballLeft <= PadRightUppersideLeft &&
+             if ( (ballBotom) == PadLeftUppersideTop && ((ballLeft <= PadRightUppersideLeft &&
              ballRight > PadRightUppersideLeft) || (ballRight < PadRightUppersideLeft &&
              ballLeft > PadLeftUppersideLeft) || (ballRight >= PadLeftUppersideLeft &&
-             ballRight < PadLeftUppersideLeft)))
+             ballLeft < PadLeftUppersideLeft)))
              {
                 int newLeftSpeed;
                 int newRightSpeed;
@@ -241,14 +242,14 @@
         {
             if (ballLeft <= 0)
                 this.Ball.Speed = new Position(-this.Ball.Speed.Left, this.Ball.Speed.Top);
-            else if (ballLeft + this.Ball.Bounds.Width >= this.renderer.ScreenWidth)
+            else if (ballLeft + this.Ball.Bounds.Width >= this.renderer.ScreenWidth-10)
                 this.Ball.Speed = new Position(-this.Ball.Speed.Left, this.Ball.Speed.Top);
             else if (ballTop <= 0) 
                 this.Ball.Speed = new Position(this.Ball.Speed.Left, -this.Ball.Speed.Top);
             else if (ballTop >= this.renderer.ScreenHeight)
             {
                 timer.Stop();
-                Environment.Exit(0);
+                this.renderer.ShowEndGameScreen();
 
             }
 

@@ -15,6 +15,7 @@
     using Misc;
     using Global;
     using System.Drawing;
+    using System.Windows;
     public class WpfGameRenderer : IRenderer
     {
 
@@ -32,11 +33,11 @@
 
         public WpfGameRenderer(Canvas gameCanvas)  //constructor i proverka za natisnat buton
         {
-            string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\background.jpg");
+            string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\background36.jpg");
             this.canvas = gameCanvas;
             ImageBrush myBrush = new ImageBrush();
             Image image = new Image();
-            image.Source = new BitmapImage( new Uri(pathBackground));
+            image.Source = new BitmapImage(new Uri(pathBackground));
             myBrush.ImageSource = image.Source;
             this.canvas.Background = myBrush;
 
@@ -122,22 +123,43 @@
 
         private void DrawPad(IGameObject drawing)
         {
+            //inicializaciq na bitmap 
             BitmapImage ballFacetSource = new BitmapImage();
-            ballFacetSource.BeginInit();                //putq do image v papka images
-            string path = System.IO.Path.GetFullPath(@"..\..\Images\Ball.png");
+            ballFacetSource.BeginInit();                //putq do image v papka  images
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\neon_line.png");
             ballFacetSource.UriSource = new Uri(path);
             ballFacetSource.EndInit();
 
-            var pad = new Ellipse()
-            {
-                Width = drawing.Bounds.Width,
-                Height = drawing.Bounds.Height,
-                Fill = Brushes.LimeGreen
-            };
+            //pravim nov image koito vzima source bitmapimage
+            Image pad = new Image();
+            pad.Source = ballFacetSource;
+            pad.Height = drawing.Bounds.Height;
+            pad.Width = drawing.Bounds.Width;
 
+            //static method za da setvane poziciq na ball sprqmo canvasa
             Canvas.SetLeft(pad, drawing.Position.Left);
             Canvas.SetTop(pad, drawing.Position.Top);
+            //dobavqme v canvasa ball obekta kato children na cavasa 
             this.canvas.Children.Add(pad);
+
+
+
+            //BitmapImage ballFacetSource = new BitmapImage();
+            //ballFacetSource.BeginInit();                //putq do image v papka images
+            //string path = System.IO.Path.GetFullPath(@"..\..\Images\Ball.png");
+            //ballFacetSource.UriSource = new Uri(path);
+            //ballFacetSource.EndInit();
+
+            //var pad = new Ellipse()
+            //{
+            //    Width = drawing.Bounds.Width,
+            //    Height = drawing.Bounds.Height,
+            //    Fill = Brushes.LimeGreen
+            //};
+
+            //Canvas.SetLeft(pad, drawing.Position.Left);
+            //Canvas.SetTop(pad, drawing.Position.Top);
+            //this.canvas.Children.Add(pad);
         }
 
         private void DrawText(TextGameObject drawing)
@@ -146,7 +168,7 @@
             {
                 Width = drawing.Bounds.Width,
                 Height = drawing.Bounds.Height,
-                Foreground = Brushes.Black,
+                Foreground = Brushes.WhiteSmoke,
                 Text = drawing.Text,
                 FontSize = 15,
 
@@ -181,37 +203,38 @@
 
         private void DrawBrick(IGameObject drawing)
         {
-            SolidColorBrush brush = GiveMeColor(drawing); //vrushta random color
-            var brick = new Rectangle()
-            {
-                Width = drawing.Bounds.Width,
-                Height = drawing.Bounds.Height,
-                Fill = brush,
-            };
-
-            Canvas.SetLeft(brick, drawing.Position.Left);
-            Canvas.SetTop(brick, drawing.Position.Top);
-            this.canvas.Children.Add(brick);
-
-
-
-
-
-            //Image brick = new Image();
-
-            //BitmapImage brickFacetSource = new BitmapImage();
-            //brickFacetSource.BeginInit();
-            //brickFacetSource.UriSource = new Uri(@"C:\Users\vasil\Desktop\brick.png");
-            //brickFacetSource.EndInit();
-
-            //brick.Source = brickFacetSource;
-            //brick.Height = drawing.Bounds.Height;
-            //brick.Width = drawing.Bounds.Width;
-
+            //SolidColorBrush brush = GiveMeColor(drawing); //vrushta random color
+            //var brick = new Rectangle()
+            //{
+            //    Width = drawing.Bounds.Width,
+            //    Height = drawing.Bounds.Height,
+            //    Fill = brush,
+            //};
 
             //Canvas.SetLeft(brick, drawing.Position.Left);
             //Canvas.SetTop(brick, drawing.Position.Top);
             //this.canvas.Children.Add(brick);
+
+
+
+
+
+            Image brick = new Image();
+
+            BitmapImage brickFacetSource = new BitmapImage();
+            brickFacetSource.BeginInit();
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\brick.png");
+            brickFacetSource.UriSource = new Uri(path);
+            brickFacetSource.EndInit();
+
+            brick.Source = brickFacetSource;
+            brick.Height = drawing.Bounds.Height;
+            brick.Width = drawing.Bounds.Width;
+
+
+            Canvas.SetLeft(brick, drawing.Position.Left);
+            Canvas.SetTop(brick, drawing.Position.Top);
+            this.canvas.Children.Add(brick);
         }
 
 
@@ -230,7 +253,7 @@
 
         public bool isInBounds(Position position)//proverka za dali pada e v granici kato natiskame lqvo i dqsno
         {
-            if (position.Left <= 0 || position.Left >= ScreenWidth - GlobalConstants.padWidth - 5
+            if (position.Left <= -10 || position.Left >= ScreenWidth - GlobalConstants.padWidth - 5
                 || position.Top <= 5 || position.Top >= ScreenHeight)
             {
                 return false;
@@ -242,5 +265,86 @@
             }
 
         }
+
+        public void ShowStartGameScreen()
+        {
+            string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\vav.png");
+            ImageBrush myBrush = new ImageBrush();
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri(pathBackground));
+            myBrush.ImageSource = image.Source;
+
+            var window = new Window
+            {  Width= 1020,
+               Height=600,
+               Background = myBrush,
+            };
+            window.Show();
+            System.Threading.Thread.Sleep(3000);
+            window.Close();
+        }
+        public void ShowEndGameScreen()
+        {
+            var parent = this.canvas.Parent;
+            while (!(parent is Window))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            
+            string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\endscreen.jpg");
+            ImageBrush myBrush = new ImageBrush();
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri(pathBackground));
+            myBrush.ImageSource = image.Source;
+
+            StackPanel panel = new StackPanel
+            {
+            };
+            
+            var button = new Button
+            { FontSize = 20,
+                Content = "PLAY AGAIN",
+                Width = 250,
+                Height = 50,
+                Background = Brushes.Transparent,
+                Foreground= Brushes.LightSkyBlue,
+            };
+            panel.Children.Add(button);
+            var buttonEnd = new Button
+            {
+                FontSize = 20,
+                Content = "EXIT GAME",
+                Width = 250,
+                Height = 50,
+                Background = Brushes.Transparent,
+                Foreground = Brushes.LightSkyBlue,
+               
+            };
+            panel.Children.Add(buttonEnd);
+
+
+
+            var window = new Window
+            {   Content = panel,
+                Width = 1020,
+                Height = 600,
+                Background = myBrush,
+            };
+            
+            button.Click += (snd, ev) =>
+              {
+                  new MainWindow().Show();
+                  window.Close();
+              };
+            buttonEnd.Click += (snd, ev) =>
+            {
+                Environment.Exit(0);
+            };
+            window.Show();
+            (parent as Window).Close();
+
+        }
+
     }
 }
+

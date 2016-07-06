@@ -19,5 +19,9 @@ namespace OtbornaIgra.Interfaces
           event EventHandler<KeyDownEventArgs> presingkey;
 
           bool isInBounds(Position position);
+
+          void ShowStartGameScreen();
+         
+          void ShowEndGameScreen();
     }
 }

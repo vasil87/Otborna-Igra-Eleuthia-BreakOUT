@@ -33,7 +33,7 @@ namespace OtbornaIgra.Collision_Detection
         }
         public static bool CheckForCollisionWithBricks(IMovable movingObject, List<IGameObject> staticObjects)
         {
-
+            if (movingObject.Position.Top >= 400) return false;
             List<MatrixCoords> movingObjectCoords = new List<MatrixCoords>();//here saves the moving ball coords
 
             MovingObjectCoordinates(movingObject, movingObjectCoords); //get the coordinates of the moving ball 

@@ -146,13 +146,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Ball.png" />
+    <Resource Include="Images\background36.jpg" />
+    <Resource Include="Images\brick.png" />
+    <Resource Include="Images\endscreen.jpg" />
+    <Resource Include="Images\neon_line2.png" />
+    <Resource Include="Images\vav.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\background.jpg" />
+    <Resource Include="Images\neon_line.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\pad.png" />
+    <Resource Include="Images\ball.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
