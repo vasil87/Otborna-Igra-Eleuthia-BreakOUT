@@ -16,7 +16,7 @@
     public class GameEngine
 
     {
-        
+
 
         private IRenderer renderer;
 
@@ -31,13 +31,13 @@
         public GameEngine(IRenderer Renderer)
         {
             //zaka4am se za eventa presingkey i pri vsqko vikane na presingkey se vika handlekeypressed
-            
+
             this.renderer = Renderer;
-            this.renderer.presingkey += HandleKeyPressed; 
+            this.renderer.presingkey += HandleKeyPressed;
         }
 
         private void HandleKeyPressed(object sender, KeyDownEventArgs key)
-            //metoda koito e zaka4en za eventa presingkey
+        //metoda koito e zaka4en za eventa presingkey
         {
             if (key.Command == GameComand.MoveLeft)
             {
@@ -45,9 +45,9 @@
                 var top = this.Pad.Position.Top;
                 var newPositon = new Position(left, top);
                 if (this.renderer.isInBounds(newPositon))
-                 {
+                {
                     this.Pad.Position = newPositon;
-                 }
+                }
             }
 
             else if (key.Command == GameComand.MoveRight)
@@ -59,7 +59,7 @@
                 {
                     this.Pad.Position = newPositon;
                 }
-                
+
             }
 
             else if (key.Command == GameComand.Fire)
@@ -71,20 +71,21 @@
         {
             this.renderer.ShowStartGameScreen();
             int initPadLeftPosition = (this.renderer.ScreenWidth) / 2 - GlobalConstants.padWidth / 2;
-            int initPadTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight*2);
+            int initPadTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight * 2);
 
             this.Pad = new PadGameObject()
             {
-                Position = new Position(initPadLeftPosition, initPadTopPosition),   
+                Position = new Position(initPadLeftPosition, initPadTopPosition),
                 Bounds = new Size(GlobalConstants.padWidth, GlobalConstants.padHeight)
             };
 
             int initBallLeftPosition = (this.renderer.ScreenWidth) / 2;
-            int initBallTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight * (GlobalConstants.distanceFromBottomRowPad) - GlobalConstants.padHeight-GlobalConstants.ballSize);
+            int initBallTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight 
+                * (GlobalConstants.distanceFromBottomRowPad) - GlobalConstants.padHeight - GlobalConstants.ballSize);
 
             this.Ball = new BallGameObject()
             {
-                Speed = new Position(-2,-3),
+                Speed = new Position(-2, -3),
                 Position = new Position(initBallLeftPosition,
                 (initBallTopPosition)),
                 Bounds = new Size(GlobalConstants.ballSize, GlobalConstants.ballSize)
@@ -103,20 +104,20 @@
             int initBrickTopPosition = 50;
             int brickRows = 6;
             int brickCows = 8;
-             
-             this.Bricks = new List<IGameObject>();
-             for (int j = 0; j < brickRows; j++)
-             {
-                 for (int i = 0; i < brickCows; i++)
-                 {
-                     Bricks.Add(new BricksGameObject()
-                     {
-                         Position = new Position(initBrickLeftPosition + i * GlobalConstants.brickWidth * 2,
-                     (initBrickTopPosition + j * GlobalConstants.brickHright * 2)),
-                         Bounds = new Size(GlobalConstants.brickWidth, GlobalConstants.brickHright)
-                     });
-                 }
-             }
+
+            this.Bricks = new List<IGameObject>();
+            for (int j = 0; j < brickRows; j++)
+            {
+                for (int i = 0; i < brickCows; i++)
+                {
+                    Bricks.Add(new BricksGameObject()
+                    {
+                        Position = new Position(initBrickLeftPosition + i * GlobalConstants.brickWidth * 2,
+                    (initBrickTopPosition + j * GlobalConstants.brickHright * 2)),
+                        Bounds = new Size(GlobalConstants.brickWidth, GlobalConstants.brickHright)
+                    });
+                }
+            }
 
             CollisionDetector.GetBoundariesForStaticObjects(this.Bricks);
 
@@ -129,41 +130,46 @@
             timer.Tick += (sender, args) =>
             {
                 //granici na ball za udar 
-                var ballTop = this.Ball.Position.Top; 
-                var ballLeft = this.Ball.Position.Left; 
+                var ballTop = this.Ball.Position.Top;
+                var ballLeft = this.Ball.Position.Left;
                 var ballBottom = this.Ball.Position.Top + (this.Ball.Bounds.Height);
                 var ballRight = ballLeft + this.Ball.Bounds.Width;
 
-                
+
                 CheckForPadCollision(ballTop, ballLeft, ballBottom, ballRight);
 
-                CheckForBoundariesRebound(ballTop, ballLeft,timer);
+                CheckForBoundariesRebound(ballTop, ballLeft, timer);
 
-                
+
                 if (CollisionDetector.CheckForCollisionWithBricks(this.Ball, this.Bricks))
                 {
                     (this.HighScore as HighScore).IncreaseHighScore();
-                    
+
                 }
-                  
+
 
                 this.Bricks.RemoveAll(x => x.IsAlive == false);
 
+                if (this.Bricks.Count == 0)
+                {
+                    timer.Stop();
+                    this.renderer.ShowEndGameScreen();
+                }
 
                 this.renderer.Clear();
 
 
                 this.Ball.MoveWithCurrentSpeed(); //premestva topkata sys segashnata i skorost
-    
+
 
                 //draw bricks,pad and ball
-               
-                this.renderer.Draw(this.Pad, this.Ball,this.HighScore);
+
+                this.renderer.Draw(this.Pad, this.Ball, this.HighScore);
                 foreach (var brick in this.Bricks)
                 {
                     if (brick.IsAlive == true)
                         this.renderer.Draw(brick);
-                
+
                 }
 
             };
@@ -171,7 +177,7 @@
 
         }
 
-        private void CheckForPadCollision(int ballTop, int ballLeft,int ballBotom,int ballRight)
+        private void CheckForPadCollision(int ballTop, int ballLeft, int ballBotom, int ballRight)
         {
             //granici na pada
             var PadLeftUppersideLeft = Pad.Position.Left;
@@ -180,29 +186,31 @@
             var PadRightUppersideTop = PadLeftUppersideTop;
 
             //proverka za udur
-           
-            
-            
-             if ( (ballBotom) == PadLeftUppersideTop && ((ballLeft <= PadRightUppersideLeft &&
-             ballRight > PadRightUppersideLeft) || (ballRight < PadRightUppersideLeft &&
-             ballLeft > PadLeftUppersideLeft) || (ballRight >= PadLeftUppersideLeft &&
-             ballLeft < PadLeftUppersideLeft)))
-             {
+            if ((ballBotom) == PadLeftUppersideTop 
+                && ((ballLeft <= PadRightUppersideLeft 
+                && ballRight > PadRightUppersideLeft) 
+                || (ballRight < PadRightUppersideLeft 
+                && ballLeft > PadLeftUppersideLeft) 
+                || (ballRight >= PadLeftUppersideLeft 
+                && ballLeft < PadLeftUppersideLeft)))
+            {
                 int newLeftSpeed;
                 int newRightSpeed;
 
-                if (ballRight <= (PadRightUppersideLeft - this.Pad.Bounds.Width / 4) && ballLeft >= PadLeftUppersideLeft + (Pad.Bounds.Width) / 4)
+                if (ballRight <= (PadRightUppersideLeft - this.Pad.Bounds.Width / 4) 
+                    && ballLeft >= PadLeftUppersideLeft + (Pad.Bounds.Width) / 4)
                 {
                     newLeftSpeed = this.Ball.Speed.Left / 2;
-                     newRightSpeed = -this.Ball.Speed.Top;
+                    newRightSpeed = -this.Ball.Speed.Top;
                     this.Ball.Speed = new Position(newLeftSpeed, newRightSpeed);
-                   
+
                 }
 
-                else {
+                else
+                {
                     if (this.Ball.Speed.Left == 0)
                     {
-                        if ((ballLeft + this.Ball.Bounds.Width/2) <= PadLeftUppersideLeft + Pad.Bounds.Width/2)
+                        if ((ballLeft + this.Ball.Bounds.Width / 2) <= PadLeftUppersideLeft + Pad.Bounds.Width / 2)
                             newLeftSpeed = -2;
                         else { newLeftSpeed = 2; }
                     }
@@ -235,16 +243,16 @@
 
         //    }
 
-           
+
         //}
 
-        private void CheckForBoundariesRebound(int ballTop, int ballLeft,DispatcherTimer timer)
+        private void CheckForBoundariesRebound(int ballTop, int ballLeft, DispatcherTimer timer)
         {
             if (ballLeft <= 0)
                 this.Ball.Speed = new Position(-this.Ball.Speed.Left, this.Ball.Speed.Top);
-            else if (ballLeft + this.Ball.Bounds.Width >= this.renderer.ScreenWidth-10)
+            else if (ballLeft + this.Ball.Bounds.Width >= this.renderer.ScreenWidth - 10)
                 this.Ball.Speed = new Position(-this.Ball.Speed.Left, this.Ball.Speed.Top);
-            else if (ballTop <= 0) 
+            else if (ballTop <= 0)
                 this.Ball.Speed = new Position(this.Ball.Speed.Left, -this.Ball.Speed.Top);
             else if (ballTop >= this.renderer.ScreenHeight)
             {
@@ -255,6 +263,6 @@
 
         }
 
-       
+
     }
 }

@@ -16,6 +16,7 @@
     using Global;
     using System.Drawing;
     using System.Windows;
+    using System.Threading;
     public class WpfGameRenderer : IRenderer
     {
 
@@ -280,7 +281,7 @@
                Background = myBrush,
             };
             window.Show();
-            System.Threading.Thread.Sleep(3000);
+            Thread.Sleep(3000);
             window.Close();
         }
         public void ShowEndGameScreen()

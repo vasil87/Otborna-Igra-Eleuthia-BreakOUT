@@ -1,116 +1,163 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="OtbornaIgra.App" Collapsed="true">
-    <Position X="9.75" Y="0.5" Width="1.5" />
+  <Class Name="OtbornaIgra.Renderers.WpfGameRenderer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>App.xaml.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="OtbornaIgra.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="9.75" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
-      <FileName>MainWindow.xaml.cs</FileName>
+      <HashCode>AAAAAAAAAEAAAgAAAiAgABACgARgAAAAAAAAAABAAIA=</HashCode>
+      <FileName>Renderers\WpfGameRenderer.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="OtbornaIgra.GameEngines.GameEngine" Collapsed="true">
-    <Position X="11.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAACgCAAAAAQAAgAAAAAAAAAAACAIAAgIA=</HashCode>
-      <FileName>GameEngines\GameEngine.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="OtbornaIgra.GameObjects.BallGameObject" Collapsed="true">
-    <Position X="7.25" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>GameObjects\BallGameObject.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="OtbornaIgra.GameObjects.BricksGameObject" Collapsed="true">
-    <Position X="2.75" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>GameObjects\BricksGameObject.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="OtbornaIgra.GameObjects.GameObjects" Collapsed="true">
-    <Position X="5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
-      <FileName>GameObjects\GameObjects.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="OtbornaIgra.GameObjects.PadGameObject" Collapsed="true">
-    <Position X="5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>GameObjects\PadGameObject.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="OtbornaIgra.Misc.KeyDownEventArgs" Collapsed="true">
-    <Position X="13.25" Y="0.5" Width="1.5" />
+    <Position X="17.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Misc\KeyDownEventArgs.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OtbornaIgra.Properties.Resources" Collapsed="true">
-    <Position X="11.5" Y="1.5" Width="1.5" />
+  <Class Name="OtbornaIgra.Global.GlobalConstants" Collapsed="true">
+    <Position X="15.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>AAAgAAgAAAAACAAgAAAACAAAAAAAAAAgAAACBIAAAAg=</HashCode>
+      <FileName>Global\GlobalConstants.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OtbornaIgra.Properties.Settings" Collapsed="true">
-    <Position X="13.25" Y="1.5" Width="1.5" />
+  <Class Name="OtbornaIgra.GameEngines.GameEngine" Collapsed="true">
+    <Position X="19.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAgAAAAAAAgCAAAAhQAAgAAAAAAAAAAAABAAAgIA=</HashCode>
+      <FileName>GameEngines\GameEngine.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OtbornaIgra.Renderers.WpfGameRenderer" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="9.75" Y="2.5" Width="1.5" />
+  <Class Name="OtbornaIgra.GameObjects.BallGameObject" Collapsed="true">
+    <Position X="6.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAAgAAAiAgAAACgABAAAAAAAAAAABAAAA=</HashCode>
-      <FileName>Renderers\WpfGameRenderer.cs</FileName>
+      <HashCode>AQAAAAAAAIAAAAAAAAAAAAABAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\BallGameObject.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OtbornaIgra.GameObjects.BricksGameObject" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\BricksGameObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OtbornaIgra.GameObjects.GameObjects" Collapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>GameObjects\GameObjects.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OtbornaIgra.GameObjects.HighScore" Collapsed="true">
+    <Position X="11" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>GameObjects\HighScore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OtbornaIgra.GameObjects.PadGameObject" Collapsed="true">
+    <Position X="13.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjects\PadGameObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OtbornaIgra.GameObjects.TextGameObject" Collapsed="true">
+    <Position X="11" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAIAAAACAAAAAA=</HashCode>
+      <FileName>GameObjects\TextGameObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OtbornaIgra.Collision_Detection.CollisionData" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Collision Detection\CollisionData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OtbornaIgra.Collision_Detection.CollisionDetector" Collapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAACAAAIAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Collision Detection\CollisionDetector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OtbornaIgra.Collision_Detection.MatrixCoords" Collapsed="true">
+    <Position X="19.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAwAEAAAAAAAAIAIAACAAAAAAAAiA=</HashCode>
+      <FileName>Collision Detection\MatrixCoords.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Struct Name="OtbornaIgra.GameObjects.Position" Collapsed="true">
-    <Position X="9.75" Y="3.75" Width="1.5" />
+    <Position X="15.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\Position.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="OtbornaIgra.GameObjects.Size" Collapsed="true">
-    <Position X="11.5" Y="3.75" Width="1.5" />
+    <Position X="17.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\Size.cs</FileName>
     </TypeIdentifier>
   </Struct>
-  <Interface Name="OtbornaIgra.Interfaces.IRenderer" Collapsed="true">
-    <Position X="9.75" Y="5" Width="1.5" />
+  <Interface Name="OtbornaIgra.Interfaces.IGameObject" Collapsed="true">
+    <Position X="7.75" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAAgAAAgAAAAAAAABAAAAAAAAAAABAAAA=</HashCode>
-      <FileName>Interfaces\IRenderer.cs</FileName>
+      <HashCode>AQAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Interfaces\IGameObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="OtbornaIgra.Interfaces.IMovable" Collapsed="true">
-    <Position X="11.5" Y="5" Width="1.5" />
+    <Position X="8.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Interfaces\IMoveble.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAABAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IMovable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OtbornaIgra.Interfaces.IRenderer" Collapsed="true">
+    <Position X="15.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAgAAAgAAABAAAARgAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Interfaces\IRenderer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OtbornaIgra.Interfaces.IStaticGameObject" Collapsed="true">
+    <Position X="6.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IStaticGameObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OtbornaIgra.Interfaces.ITextGameObject" Collapsed="true">
+    <Position X="6.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Interfaces\ITextGameObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="OtbornaIgra.Misc.GameComand" Collapsed="true">
-    <Position X="9.75" Y="6" Width="1.5" />
+    <Position X="15.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAIQAAAAAAAAAA=</HashCode>
-      <FileName>Misc\GameComand.cs</FileName>
+      <FileName>Misc\GameComandEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OtbornaIgra.Collision_Detection.HitTypeEnum" Collapsed="true">
+    <Position X="17.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Collision Detection\HitTypeEnum.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="10" />
