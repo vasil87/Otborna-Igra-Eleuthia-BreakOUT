@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OtbornaIgra.Interfaces
 {
-    public interface ITextGameObject:IStaticGameObject
+    public interface ITextGameObject:IGameObject
     {
-        string Text { get; set;}
+        string Text { get;}
 
         void ParseFromInt(int number);
     }

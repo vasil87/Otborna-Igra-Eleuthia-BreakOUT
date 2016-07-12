@@ -72,18 +72,23 @@
     </ApplicationDefinition>
     <Compile Include="Collision Detection\CollisionData.cs" />
     <Compile Include="Collision Detection\CollisionDetector.cs" />
+    <Compile Include="GameObjects\GameObjectsFactory.cs" />
     <Compile Include="Collision Detection\MatrixCoords.cs" />
     <Compile Include="Collision Detection\HitTypeEnum.cs" />
     <Compile Include="GameObjects\HighScore.cs" />
+    <Compile Include="GameObjects\ErorTextGameObject.cs" />
     <Compile Include="GameObjects\TextGameObject.cs" />
     <Compile Include="Global\GlobalConstants.cs" />
+    <Compile Include="Interfaces\IDestroyable.cs" />
+    <Compile Include="Interfaces\IGameEngine.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
+    <Compile Include="Interfaces\IRebouncable.cs" />
     <Compile Include="Interfaces\IRenderer.cs" />
-    <Compile Include="Interfaces\IStaticGameObject.cs" />
     <Compile Include="Interfaces\ITextGameObject.cs" />
     <Compile Include="Misc\GameComandEnum.cs" />
     <Compile Include="Misc\KeyDownEventArgs.cs" />
+    <Compile Include="Misc\WrongKeyException.cs" />
     <Compile Include="Renderers\WpfGameRenderer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -123,7 +128,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

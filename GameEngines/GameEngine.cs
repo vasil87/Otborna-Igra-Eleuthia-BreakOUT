@@ -2,267 +2,216 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Renderers;
     using Interfaces;
     using GameObjects;
     using Misc;
     using System.Windows.Threading;
-    using System.Threading;
     using Global;
     using Collision_Detection;
-    public class GameEngine
+    using System.Linq;
+    public class GameEngine:IGameEngine
 
     {
-
+        private ICollection<IRebouncable> rebouncableObjects;
+        private ICollection<IMovable> movingObjects;
+        private List<IDestroyable> bricks;
+        private IRebouncable Pad;
+        private IMovable Ball;
+        private DispatcherTimer timer;
 
         private IRenderer renderer;
-
-        public IGameObject Pad { get; set; }
-
-        public IMovable Ball { get; set; }
-
-        public IGameObject HighScore { get; set; }
-
-        public List<IGameObject> Bricks { get; set; }
-
+        public ICollection<IRebouncable> RebouncableObjects
+        {
+            get { return this.rebouncableObjects; }
+        }
+        public ICollection<IMovable> MovingObjects
+        {
+            get { return this.movingObjects; }
+        }
+        public List<IDestroyable> Bricks
+        {
+            get { return this.bricks; }
+        }
+        public ITextGameObject HighScore { get; set; }
         public GameEngine(IRenderer Renderer)
         {
             //zaka4am se za eventa presingkey i pri vsqko vikane na presingkey se vika handlekeypressed
-
+            timer = new DispatcherTimer();
             this.renderer = Renderer;
-            this.renderer.presingkey += HandleKeyPressed;
+            this.renderer.presingkey += HandleKeyPressed; 
+           
+           
         }
 
         private void HandleKeyPressed(object sender, KeyDownEventArgs key)
         //metoda koito e zaka4en za eventa presingkey
         {
-            if (key.Command == GameComand.MoveLeft)
-            {
-                var left = this.Pad.Position.Left - 15;
-                var top = this.Pad.Position.Top;
-                var newPositon = new Position(left, top);
-                if (this.renderer.isInBounds(newPositon))
+            try {
+                if (key.Command == GameComand.MoveLeft)
                 {
-                    this.Pad.Position = newPositon;
-                }
-            }
-
-            else if (key.Command == GameComand.MoveRight)
-            {
-                var right = this.Pad.Position.Left + 15;
-                var top = this.Pad.Position.Top;
-                var newPositon = new Position(right, top);
-                if (this.renderer.isInBounds(newPositon))
-                {
-                    this.Pad.Position = newPositon;
-                }
-
-            }
-
-            else if (key.Command == GameComand.Fire)
-            {
-            }
-        }
-
-        internal void InitGame()
-        {
-            this.renderer.ShowStartGameScreen();
-            int initPadLeftPosition = (this.renderer.ScreenWidth) / 2 - GlobalConstants.padWidth / 2;
-            int initPadTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight * 2);
-
-            this.Pad = new PadGameObject()
-            {
-                Position = new Position(initPadLeftPosition, initPadTopPosition),
-                Bounds = new Size(GlobalConstants.padWidth, GlobalConstants.padHeight)
-            };
-
-            int initBallLeftPosition = (this.renderer.ScreenWidth) / 2;
-            int initBallTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight 
-                * (GlobalConstants.distanceFromBottomRowPad) - GlobalConstants.padHeight - GlobalConstants.ballSize);
-
-            this.Ball = new BallGameObject()
-            {
-                Speed = new Position(-2, -3),
-                Position = new Position(initBallLeftPosition,
-                (initBallTopPosition)),
-                Bounds = new Size(GlobalConstants.ballSize, GlobalConstants.ballSize)
-            };
-
-            int initHighScoreLeftPosition = (this.renderer.ScreenWidth) - GlobalConstants.highScoreLeft;
-            int initHighScorePosition = GlobalConstants.distanceFromBottomRowPad;
-
-            this.HighScore = new HighScore()
-            {
-                Position = new Position(initHighScoreLeftPosition, initHighScorePosition),
-                Bounds = new Size(GlobalConstants.highScoreWidht, GlobalConstants.highScoreHeight)
-            };
-
-            int initBrickLeftPosition = 50;
-            int initBrickTopPosition = 50;
-            int brickRows = 6;
-            int brickCows = 8;
-
-            this.Bricks = new List<IGameObject>();
-            for (int j = 0; j < brickRows; j++)
-            {
-                for (int i = 0; i < brickCows; i++)
-                {
-                    Bricks.Add(new BricksGameObject()
+                    var Speed = GameObjectsFactory.GenerateNewPosition(GlobalConstants.PadSpeedLeft, GlobalConstants.PadSpeedTop);
+                    var newPositon = GameObjectsFactory.GenerateNewPosition(Speed, this.Pad);
+                    if (this.renderer.isInBounds(newPositon))
                     {
-                        Position = new Position(initBrickLeftPosition + i * GlobalConstants.brickWidth * 2,
-                    (initBrickTopPosition + j * GlobalConstants.brickHright * 2)),
-                        Bounds = new Size(GlobalConstants.brickWidth, GlobalConstants.brickHright)
-                    });
+                        this.Pad.Position = newPositon;
+                    }
                 }
-            }
 
-            CollisionDetector.GetBoundariesForStaticObjects(this.Bricks);
-
-        }
-
-        internal void StartGame()
-        {
-            var timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(GlobalConstants.timerFramesIntervalInMiliSeconds);
-            timer.Tick += (sender, args) =>
-            {
-                //granici na ball za udar 
-                var ballTop = this.Ball.Position.Top;
-                var ballLeft = this.Ball.Position.Left;
-                var ballBottom = this.Ball.Position.Top + (this.Ball.Bounds.Height);
-                var ballRight = ballLeft + this.Ball.Bounds.Width;
-
-
-                CheckForPadCollision(ballTop, ballLeft, ballBottom, ballRight);
-
-                CheckForBoundariesRebound(ballTop, ballLeft, timer);
-
-
-                if (CollisionDetector.CheckForCollisionWithBricks(this.Ball, this.Bricks))
+                else if (key.Command == GameComand.MoveRight)
                 {
-                    (this.HighScore as HighScore).IncreaseHighScore();
+                    var Speed = GameObjectsFactory.GenerateNewPosition(-GlobalConstants.PadSpeedLeft, GlobalConstants.PadSpeedTop);
+                    var newPositon = GameObjectsFactory.GenerateNewPosition(Speed, this.Pad);
+                    if (this.renderer.isInBounds(newPositon))
+                    {
+                        this.Pad.Position = newPositon;
+                    }
 
                 }
 
-
-                this.Bricks.RemoveAll(x => x.IsAlive == false);
-
-                if (this.Bricks.Count == 0)
+                else if (key.Command == GameComand.Pause)
                 {
-                    timer.Stop();
-                    this.renderer.ShowEndGameScreen();
-                }
-
-                this.renderer.Clear();
-
-
-                this.Ball.MoveWithCurrentSpeed(); //premestva topkata sys segashnata i skorost
-
-
-                //draw bricks,pad and ball
-
-                this.renderer.Draw(this.Pad, this.Ball, this.HighScore);
-                foreach (var brick in this.Bricks)
-                {
-                    if (brick.IsAlive == true)
-                        this.renderer.Draw(brick);
-
-                }
-
-            };
-            timer.Start();
-
-        }
-
-        private void CheckForPadCollision(int ballTop, int ballLeft, int ballBotom, int ballRight)
-        {
-            //granici na pada
-            var PadLeftUppersideLeft = Pad.Position.Left;
-            var PadLeftUppersideTop = Pad.Position.Top;
-            var PadRightUppersideLeft = Pad.Position.Left + Pad.Bounds.Width;
-            var PadRightUppersideTop = PadLeftUppersideTop;
-
-            //proverka za udur
-            if ((ballBotom) == PadLeftUppersideTop 
-                && ((ballLeft <= PadRightUppersideLeft 
-                && ballRight > PadRightUppersideLeft) 
-                || (ballRight < PadRightUppersideLeft 
-                && ballLeft > PadLeftUppersideLeft) 
-                || (ballRight >= PadLeftUppersideLeft 
-                && ballLeft < PadLeftUppersideLeft)))
-            {
-                int newLeftSpeed;
-                int newRightSpeed;
-
-                if (ballRight <= (PadRightUppersideLeft - this.Pad.Bounds.Width / 4) 
-                    && ballLeft >= PadLeftUppersideLeft + (Pad.Bounds.Width) / 4)
-                {
-                    newLeftSpeed = this.Ball.Speed.Left / 2;
-                    newRightSpeed = -this.Ball.Speed.Top;
-                    this.Ball.Speed = new Position(newLeftSpeed, newRightSpeed);
+                    if (this.timer.IsEnabled)
+                        this.timer.Stop();
+                    else { this.timer.Start(); }
 
                 }
 
                 else
                 {
-                    if (this.Ball.Speed.Left == 0)
-                    {
-                        if ((ballLeft + this.Ball.Bounds.Width / 2) <= PadLeftUppersideLeft + Pad.Bounds.Width / 2)
-                            newLeftSpeed = -2;
-                        else { newLeftSpeed = 2; }
-                    }
-                    else { newLeftSpeed = this.Ball.Speed.Left < 0 ? -2 : 2; }
-                    newRightSpeed = -this.Ball.Speed.Top;
-                    this.Ball.Speed = new Position(newLeftSpeed, newRightSpeed);
+                    throw new WrongKeyException("Wrong key Pressed");
                 }
             }
-
-        }
-
-        //private void CheckForColissions(int ballTop, int ballLeft)
-        //{
-        //    foreach (var brick in this.Bricks)
-        //    {   //granici na brickovete 
-        //        var brickLeftBottomLeft = brick.Position.Left;
-        //        var brickLeftBottomTop = brick.Position.Top - brick.Bounds.Width;
-        //        var brickRightBottomLeft = brick.Position.Left + brick.Bounds.Width;
-        //        var brickRightBottomTop = brickLeftBottomTop;
-
-        //        //proverka za udur
-        //        if (ballTop <= brickLeftBottomTop && ballLeft <= brickRightBottomLeft &&
-        //        ballLeft >= brickLeftBottomLeft)
-        //        {
-        //            brick.IsAlive = false;
-        //            var newLeftSpeed = -this.Ball.Speed.Left;
-        //            var newRightSpeed = -this.Ball.Speed.Top;
-        //            this.Ball.Speed = new Position(newLeftSpeed, newRightSpeed);
-        //        }
-
-        //    }
-
-
-        //}
-
-        private void CheckForBoundariesRebound(int ballTop, int ballLeft, DispatcherTimer timer)
-        {
-            if (ballLeft <= 0)
-                this.Ball.Speed = new Position(-this.Ball.Speed.Left, this.Ball.Speed.Top);
-            else if (ballLeft + this.Ball.Bounds.Width >= this.renderer.ScreenWidth - 10)
-                this.Ball.Speed = new Position(-this.Ball.Speed.Left, this.Ball.Speed.Top);
-            else if (ballTop <= 0)
-                this.Ball.Speed = new Position(this.Ball.Speed.Left, -this.Ball.Speed.Top);
-            else if (ballTop >= this.renderer.ScreenHeight)
+            catch (WrongKeyException ex)
             {
-                timer.Stop();
-                this.renderer.ShowEndGameScreen();
+                var position = GameObjectsFactory.GenerateNewPosition(GlobalConstants.msgLeftPosition, GlobalConstants.msgTopPosition);
+                var size = GameObjectsFactory.GenerateNewSize(GlobalConstants.msgWidth, GlobalConstants.msgHeight);
+                var wrongKeyExceptionObject = GameObjectsFactory.GenerateNewErrorText(position, size, ex.Message);
+                this.renderer.Draw(wrongKeyExceptionObject);
+            }
+        }
+        
+        //incializiram vsi4ki obekti tuk i vkarvam v colectiite ,sled koeto presmqta lista s coordinati
+    public void InitGame()
+        {
+            this.renderer.ShowStartGameScreen();
 
+
+            //int Pad
+            this.rebouncableObjects = new List<IRebouncable>();
+            int initPadLeftPosition = (this.renderer.ScreenWidth) / 2 - GlobalConstants.padWidth / 2;
+            int initPadTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight*2);
+            var padPosition = GameObjectsFactory.GenerateNewPosition(initPadLeftPosition, initPadTopPosition);
+            var padSize = GameObjectsFactory.GenerateNewSize(GlobalConstants.padWidth, GlobalConstants.padHeight);
+            this.Pad = GameObjectsFactory.GeneratePad(padPosition, padSize);
+            this.rebouncableObjects.Add(this.Pad);
+
+            //int Ball
+            this.movingObjects = new List<IMovable>();
+            int initBallLeftPosition = (this.renderer.ScreenWidth) / 2;
+            int initBallTopPosition = ((this.renderer.ScreenHeight) - GlobalConstants.padHeight * (GlobalConstants.distanceFromBottomRowPad) - GlobalConstants.padHeight-GlobalConstants.ballSize);
+            var ballSpeed = GameObjectsFactory.GenerateNewPosition(GlobalConstants.BallInitSpeedLeft,GlobalConstants.BallInitSpeedTop);
+            var ballPosition = GameObjectsFactory.GenerateNewPosition(initBallLeftPosition,(initBallTopPosition));
+            var ballSize = GameObjectsFactory.GenerateNewSize(GlobalConstants.ballSize, GlobalConstants.ballSize);
+            this.Ball = GameObjectsFactory.GenerateNewBall(ballPosition, ballSize, ballSpeed);
+            this.movingObjects.Add(this.Ball);
+
+            //init HighScore
+            int initHighScoreLeftPosition = (this.renderer.ScreenWidth) - GlobalConstants.highScoreLeft;
+            int initHighScorePosition = GlobalConstants.distanceFromBottomRowPad;
+            var highScorePosition = GameObjectsFactory.GenerateNewPosition(initHighScoreLeftPosition, initHighScorePosition);
+            var highScoreSize = GameObjectsFactory.GenerateNewSize(GlobalConstants.highScoreWidht, GlobalConstants.highScoreHeight);
+            this.HighScore = GameObjectsFactory.GenerateNewHighScore(highScorePosition, highScoreSize);
+
+
+            //init Bricks
+            this.bricks = new List<IDestroyable>();
+            for (int j = 0; j < GlobalConstants.brickRows; j++)
+             {
+                 for (int i = 0; i < GlobalConstants.brickCows; i++)
+                 {
+
+                    var brickPosition = GameObjectsFactory.GenerateNewPosition(GlobalConstants.initBrickLeftPosition + i * GlobalConstants.brickWidth * 2,
+                        (GlobalConstants.initBrickTopPosition + j * GlobalConstants.brickHright * 2));
+                    var brickSize = GameObjectsFactory.GenerateNewSize(GlobalConstants.brickWidth, GlobalConstants.brickHright);
+                    var brick = GameObjectsFactory.GenerateNewBrick(brickPosition, brickSize);
+                    Bricks.Add(brick);
+                 }
             }
 
+            CollisionDetector.GetBoundariesForDestroiableObjects(this.Bricks);
+
         }
 
+        //cikula na igrata
+        public void StartGame()
+        {
+            
+            timer.Interval = TimeSpan.FromMilliseconds(GlobalConstants.timerFramesIntervalInMiliSeconds);
+            timer.Tick += (sender, args) =>
+            {
 
+                CollisionDetector.CheckForRebounce(this.rebouncableObjects,this.movingObjects );
+
+                var screenSize = GameObjectsFactory.GenerateNewSize(this.renderer.ScreenWidth, this.renderer.ScreenHeight);
+
+                if(CollisionDetector.CheckForBoundariesRebound(movingObjects, screenSize))
+                {
+                    timer.Stop();
+                    this.renderer.ShowEndGameScreen();
+                }
+
+                //proverka za udar i smqna na skorosta i posokata pri udar //maha udarenite ot bricks
+                foreach (var movingObject in this.movingObjects)
+                {  
+                   var posibleCollision= CollisionDetector.CheckForCollisionWithBricks(movingObject, this.Bricks, screenSize);
+                    if (posibleCollision.CollideteStaticElementIndex != -1)
+                    {
+                        if (posibleCollision.Side == HitTypeEnum.horizontal)
+                            movingObject.Speed = GameObjectsFactory.GenerateNewPosition(movingObject.Speed.Left, -movingObject.Speed.Top);
+                        else { movingObject.Speed = GameObjectsFactory.GenerateNewPosition(-movingObject.Speed.Left, movingObject.Speed.Top); }
+                        this.bricks[posibleCollision.CollideteStaticElementIndex].DestroyMe();
+                        
+
+                    }
+
+                }
+
+                //za vsqko ubito increase na highscore 
+
+                int score = 0;
+
+                foreach (var brick in this.bricks)
+                {
+                    if (brick.IsAlive == false)
+                    {
+                        score += brick.PointsForBraking;
+                    }
+                }
+               
+                (this.HighScore as HighScore).IncreaseHighScore(score);
+
+                this.bricks.RemoveAll(x => x.IsAlive == false);
+
+                if (this.bricks.Count == 0)
+                {
+                    timer.Stop();
+                    this.renderer.ShowWinGameScreen(HighScore.Text);
+                }
+               
+                this.renderer.Clear();
+
+                foreach (var bal in movingObjects)
+                {
+                    bal.MoveWithCurrentSpeed(); //premestva topkata sys segashnata i skorost
+                }
+
+                //draw bricks,pad and ball
+                this.renderer.Draw(this.HighScore);
+                this.renderer.Draw(this.RebouncableObjects.ToArray());
+                this.renderer.Draw(this.movingObjects.ToArray()); 
+                this.renderer.Draw(this.bricks.Where(x => x.IsAlive == true).ToArray());
+            };
+            timer.Start();
+        }
     }
 }

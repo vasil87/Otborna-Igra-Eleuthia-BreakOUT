@@ -10,6 +10,5 @@ namespace OtbornaIgra.Interfaces
 
          Size Bounds { get; set; }
 
-         bool IsAlive { get; set; }
     }
 }

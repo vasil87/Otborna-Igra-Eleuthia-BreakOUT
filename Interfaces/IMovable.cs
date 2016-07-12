@@ -8,7 +8,6 @@ namespace OtbornaIgra.Interfaces
 
         Position Speed { get; set; } //vector na skorostta
         void Move(int widht, int height);
-
         void MoveWithCurrentSpeed();
 
 

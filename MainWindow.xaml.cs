@@ -35,7 +35,7 @@
         }
 
        
-        public GameEngine Engine { get; private set; }
+        public IGameEngine Engine { get; private set; }
        
     }
 }

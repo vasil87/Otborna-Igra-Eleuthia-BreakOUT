@@ -12,3 +12,20 @@ C:\Users\vasil\Documents\Visual Studio 2015\Projects\OtbornaIgra\OtbornaIgra\obj
 C:\Users\vasil\Documents\Visual Studio 2015\Projects\OtbornaIgra\OtbornaIgra\obj\Debug\OtbornaIgra.exe
 C:\Users\vasil\Documents\Visual Studio 2015\Projects\OtbornaIgra\OtbornaIgra\obj\Debug\OtbornaIgra.pdb
 C:\Users\vasil\Documents\Visual Studio 2015\Projects\OtbornaIgra\OtbornaIgra\obj\Debug\OtbornaIgra.csprojResolveAssemblyReference.cache
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-master\Otborna-Igra-Eleuthia-BreakOUT-master\bin\Debug\OtbornaIgra.exe.config
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-master\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra.exe
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-master\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra.pdb
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\bin\Debug\OtbornaIgra.exe.config
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra.exe
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra.pdb
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra.csprojResolveAssemblyReference.cache
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\MainWindow.g.cs
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\App.g.cs
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra_MarkupCompile.cache
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra_MarkupCompile.lref
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\bin\Debug\OtbornaIgra.exe
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\bin\Debug\OtbornaIgra.pdb
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\MainWindow.baml
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra.g.resources
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra.Properties.Resources.resources
+C:\Users\зъ\Desktop\otborna igra\Otborna-Igra-Eleuthia-BreakOUT-za marian\Otborna-Igra-Eleuthia-BreakOUT-master\obj\Debug\OtbornaIgra.csproj.GenerateResource.Cache

@@ -2,21 +2,17 @@
 {
     using Interfaces;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using GameObjects;
     using System.Windows.Controls;
-    using System.Windows.Shapes;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using System.Windows.Input;
     using Misc;
     using Global;
-    using System.Drawing;
     using System.Windows;
-    using System.Threading;
+
+    public delegate void KeyDownEventHander(object obj, KeyDownEventArgs args);
+
     public class WpfGameRenderer : IRenderer
     {
 
@@ -30,7 +26,7 @@
         public int ScreenHeight { get { return (int)(this.canvas.Parent as MainWindow).Height; } }
 
 
-        public event EventHandler<KeyDownEventArgs> presingkey;
+        public event KeyDownEventHander presingkey;
 
         public WpfGameRenderer(Canvas gameCanvas)  //constructor i proverka za natisnat buton
         {
@@ -60,7 +56,11 @@
                  else if (key == Key.Space)
                  {
 
-                     this.presingkey(this, new KeyDownEventArgs(GameComand.Fire));
+                     this.presingkey(this, new KeyDownEventArgs(GameComand.Pause));
+                 }
+                 else
+                 {
+                     this.presingkey(this, new KeyDownEventArgs(GameComand.other));
                  }
 
              };
@@ -78,7 +78,8 @@
             {
                 if (drawing is PadGameObject)
                 {
-                    DrawPad(drawing);
+                    IRebouncable drawingImovable = drawing as IRebouncable;
+                    DrawPad(drawingImovable);
                 }
                 else if (drawing is BricksGameObject)
                 {
@@ -89,6 +90,11 @@
                 {
                     IMovable drawingImovable = drawing as IMovable;
                     DrawBall(drawingImovable);
+                }
+                else if (drawing is ErorTextGameObject)
+                {
+
+                    DrawErrorMsg(drawing as ErorTextGameObject);
                 }
                 else if (drawing is ITextGameObject)
                 {
@@ -122,7 +128,7 @@
             this.canvas.Children.Add(ball);
         }
 
-        private void DrawPad(IGameObject drawing)
+        private void DrawPad(IRebouncable drawing)
         {
             //inicializaciq na bitmap 
             BitmapImage ballFacetSource = new BitmapImage();
@@ -178,6 +184,24 @@
             Canvas.SetLeft(text, drawing.Position.Left);
             Canvas.SetRight(text, drawing.Position.Top);
             this.canvas.Children.Add(text);
+        }
+
+        private void DrawErrorMsg(ErorTextGameObject drawing)
+        {
+            var text = new TextBlock()
+            {  
+                Width = drawing.Bounds.Width,
+                Height = drawing.Bounds.Height,
+                Foreground = Brushes.WhiteSmoke,
+                Text = drawing.Text,
+                FontSize = 25,
+
+            };
+
+            Canvas.SetLeft(text, drawing.Position.Left);
+            Canvas.SetRight(text, drawing.Position.Top);
+            this.canvas.Children.Add(text);
+            
         }
 
         /*
@@ -252,7 +276,8 @@
             return brush;
         }
 
-        public bool isInBounds(Position position)//proverka za dali pada e v granici kato natiskame lqvo i dqsno
+        //proverka za dali pada e v granici kato natiskame lqvo i dqsno
+        public bool isInBounds(Position position)
         {
             if (position.Left <= -10 || position.Left >= ScreenWidth - GlobalConstants.padWidth - 5
                 || position.Top <= 5 || position.Top >= ScreenHeight)
@@ -276,12 +301,13 @@
             myBrush.ImageSource = image.Source;
 
             var window = new Window
-            {  Width= 1020,
-               Height=600,
-               Background = myBrush,
+            {
+                Width = 1020,
+                Height = 600,
+                Background = myBrush,
             };
             window.Show();
-            Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(3000);
             window.Close();
         }
         public void ShowEndGameScreen()
@@ -291,7 +317,7 @@
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }
-            
+
             string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\endscreen.jpg");
             ImageBrush myBrush = new ImageBrush();
             Image image = new Image();
@@ -301,14 +327,15 @@
             StackPanel panel = new StackPanel
             {
             };
-            
+
             var button = new Button
-            { FontSize = 20,
+            {
+                FontSize = 20,
                 Content = "PLAY AGAIN",
                 Width = 250,
                 Height = 50,
                 Background = Brushes.Transparent,
-                Foreground= Brushes.LightSkyBlue,
+                Foreground = Brushes.LightSkyBlue,
             };
             panel.Children.Add(button);
             var buttonEnd = new Button
@@ -319,24 +346,98 @@
                 Height = 50,
                 Background = Brushes.Transparent,
                 Foreground = Brushes.LightSkyBlue,
-               
+
             };
             panel.Children.Add(buttonEnd);
 
 
 
             var window = new Window
-            {   Content = panel,
+            {
+                Content = panel,
                 Width = 1020,
                 Height = 600,
                 Background = myBrush,
             };
-            
+
             button.Click += (snd, ev) =>
               {
                   new MainWindow().Show();
                   window.Close();
               };
+            buttonEnd.Click += (snd, ev) =>
+            {
+                Environment.Exit(0);
+            };
+            window.Show();
+            (parent as Window).Close();
+
+        }
+
+        public void ShowWinGameScreen(string highScore)
+        {
+            var parent = this.canvas.Parent;
+            while (!(parent is Window))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+
+            string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\endscreen.jpg");
+            ImageBrush myBrush = new ImageBrush();
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri(pathBackground));
+            myBrush.ImageSource = image.Source;
+
+            StackPanel panel = new StackPanel
+            {
+            };
+            var text = new TextBlock
+            {
+                FontSize = 25,
+                Width = 250,
+                Height = 100,
+                Background = Brushes.Transparent,
+                Foreground = Brushes.LightSkyBlue,
+                Text = string.Format(" GOOD GAME YOUR {1}      {0}", highScore, Environment.NewLine)
+            };
+            panel.Children.Add(text);
+            var button = new Button
+            {
+                FontSize = 20,
+                Content = "PLAY AGAIN",
+                Width = 250,
+                Height = 50,
+                Background = Brushes.Transparent,
+                Foreground = Brushes.LightSkyBlue,
+            };
+            panel.Children.Add(button);
+            var buttonEnd = new Button
+            {
+                FontSize = 20,
+                Content = "EXIT GAME",
+                Width = 250,
+                Height = 50,
+                Background = Brushes.Transparent,
+                Foreground = Brushes.LightSkyBlue,
+
+            };
+            panel.Children.Add(buttonEnd);
+
+
+
+            var window = new Window
+            {
+                Content = panel,
+                Width = 1020,
+                Height = 600,
+                Background = myBrush,
+            };
+
+            button.Click += (snd, ev) =>
+            {
+                new MainWindow().Show();
+                window.Close();
+            };
             buttonEnd.Click += (snd, ev) =>
             {
                 Environment.Exit(0);

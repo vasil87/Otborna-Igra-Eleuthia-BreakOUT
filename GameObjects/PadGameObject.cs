@@ -1,8 +1,13 @@
-﻿using OtbornaIgra.Interfaces;
+﻿
 
 namespace OtbornaIgra.GameObjects
 {
-    public class PadGameObject : GameObjects, IGameObject
+    using OtbornaIgra.Interfaces;
+    public class PadGameObject : GameObjects, IGameObject,IRebouncable
     {
+        public PadGameObject(Position givePostion,Size giveSize):base(givePostion,giveSize)
+        {
+                
+        }
     }
 }

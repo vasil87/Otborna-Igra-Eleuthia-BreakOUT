@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace OtbornaIgra.GameObjects
 {
-    public abstract class TextGameObject : GameObjects, IGameObject, IStaticGameObject, ITextGameObject
+    public abstract class TextGameObject : GameObjects, IGameObject, ITextGameObject
     {
-        public TextGameObject(string text)
-        {
-            this.Text = text;
-        }
+        
 
+        public TextGameObject(Position givePosition, Size giveSize, string giveText):base(givePosition,giveSize)
+        {
+            this.Text = giveText;
+        }
 
         private string text;
         public virtual string Text
@@ -23,7 +24,7 @@ namespace OtbornaIgra.GameObjects
                 return this.text;
             }
 
-            set
+           protected set
             {
                 this.text = value;
             }

@@ -7,9 +7,9 @@
     {
         public Position Speed {get;set;}
 
-        public BallGameObject()
+        public BallGameObject(Position givePosition,Size giveSize,Position giveSpeed):base(givePosition,giveSize)
         {
-            Speed=new Position();
+            this.Speed = (giveSpeed);
         }
         public void Move(int width, int height)
         {
@@ -21,19 +21,7 @@
             this.Position = new Position(this.Position.Left+this.Speed.Left, this.Position.Top + this.Speed.Top);
         }
 
-       
-        public override bool IsAlive
-        {
-            get
-            {
-                return true;
-            }
-
-            set
-            {
-
-            }
-        }
+      
 
      
     }

@@ -4,6 +4,7 @@
     {
         MoveLeft,
         MoveRight,
-        Fire
+        Pause,
+        other
     }
 }
